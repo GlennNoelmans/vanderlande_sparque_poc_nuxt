@@ -1,10 +1,5 @@
 <script setup>
 import { Icon } from '@iconify/vue/dist/iconify.js';
-import { useProductStore } from '~/stores/products';
-
-const productStore = useProductStore();
-
-//productStore.fetchAllProductsFromMock();
 
 const props = defineProps(['dataItem']);
 const { dataItem } = props;
@@ -24,13 +19,12 @@ const imageUrl = Array.isArray(attributes.Image)
     <div class="hierarchy-card">
         {{ attributes.Image[0].ImageURL[0] }}
         <img v-if="imageUrl" :src="imageUrl" class="hierarchy-card__image">
-        <img src="https://drive.google.com/file/d/1LhFv9Q4EOMNhUEir_mACUUDscKRvx1DB/view?usp=sharing" crossorigin="anonymous"
-  referrerpolicy="no-referrer">
+        <img src="https://drive.google.com/file/d/1LhFv9Q4EOMNhUEir_mACUUDscKRvx1DB/view?usp=sharing"
+            crossorigin="anonymous" referrerpolicy="no-referrer">
 
-  <iframe width="100" height="75" aria-label="About company" role="img"
-        frameborder="0" sandbox
-        src="data:text/html,<style>body{background:url('https://drive.google.com/file/d/1LhFv9Q4EOMNhUEir_mACUUDscKRvx1DB/view?usp=sharing
+        <iframe width="100" height="75" aria-label="About company" role="img" frameborder="0" sandbox src="data:text/html,<style>body{background:url('https://drive.google.com/file/d/1LhFv9Q4EOMNhUEir_mACUUDscKRvx1DB/view?usp=sharing
         ') center/cover no-repeat;padding:0;margin:0;overflow:hidden}</style>"></iframe>
+
         <div>{{ attributes }}</div>
         <p class="hierarchy-card__title">{{ description }}</p>
         <div class="hierarchy-card__mark-number">Mark-number: {{ attributes.MarkNumber }}</div>
