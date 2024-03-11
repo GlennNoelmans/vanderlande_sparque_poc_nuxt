@@ -1,0 +1,38 @@
+.customer-modal-container {
+  width: 100%;
+  margin: 0 auto;
+  max-width: var(--content-max-width);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.customer-modal-inner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.customer-modal {
+  border: 1px solid black;
+}
+
+.customer-selection-container {
+  display: flex;
+
+  &__dropdown-container {
+    border-radius: 8px;
+  }
+
+  &__button {
+    padding: 14px 34px !important;
+    background-color: #ef7b10;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 2rem;
+  }
+}

@@ -1,0 +1,132 @@
+.search-header {
+  display: flex;
+  align-items: center;
+  background-color: var(--primary-color);
+  color: white;
+  min-height: 55px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100%;
+}
+
+.search-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+    margin: 0 auto;
+    max-width: var(--content-max-width);
+
+  &__title {
+    font-size: 18px;
+    white-space: nowrap;
+    margin-left: 15px;
+  }
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+
+  &__input {
+    width: 420px;
+    height: 48px;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    background: #fff;
+    border-left: 1px solid #a8a9ab;
+    border-top: 1px solid #a8a9ab;
+    border-bottom: 1px solid #a8a9ab;
+    border-right: none;
+    display: block;
+    padding: 10px;
+    transition: border-color 0.3s;
+
+    &:focus {
+      border-color: #58595b;
+      color: #58595b;
+    }
+  }
+
+  &__button {
+    background-color: white;
+    height: 48px;
+    border: none;
+    padding: 5px 15px 5px 0px;
+    cursor: pointer;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-right: 1px solid #a8a9ab;
+    border-top: 1px solid #a8a9ab;
+    border-bottom: 1px solid #a8a9ab;
+    border-left: none;
+
+    &__inner-container {
+        border-left: 1px solid #d2d3d5;;
+        padding-left: 12px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+    }
+  }
+
+  &__icon {
+    color: var(--primary-color);
+    font-size:  16px;
+  }
+
+}
+
+.location-container {
+  display: flex;
+  align-items: center;
+}
+
+.location-inner-container {
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    color: #041440;
+    font-size: 26px;
+  }
+}
+
+.address-container {
+  margin-left: 10px;
+
+  &__factory-name {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 200px;
+    margin-bottom: .2rem;
+    font-weight: bold;
+  }
+
+  &__street-name {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 200px;
+  }
+}
+
+.edit-location-container {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  margin-right: calc(3rem + 15px);
+
+  &__icon {
+    font-size: 14px;
+    margin-right: 4px;
+    text-decoration: underline;
+    border-bottom: 1px solid white;
+    padding-bottom: 1px;
+    margin-bottom: 3px;
+  }
+
+  &__title {
+    text-decoration: underline;
+  }
+}

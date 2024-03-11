@@ -1,0 +1,23 @@
+.page-content-container {
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+  max-width: var(--content-max-width);
+}
+
+.horizontal-divider {
+    height: 4rem;
+}
+
+.vertical-line-divider {
+  width: 1px;
+  background-color: #8FA5D5;
+  margin-right: 4rem;
+  margin-left: 2rem;
+}
+
+.page-content {
+  display: flex;
+  width: 100%;
+
+}
