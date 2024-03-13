@@ -1,6 +1,7 @@
 <script setup>
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useProductStore } from '~/stores/products';
+import { randomizeItemImage } from '~/utils/ImageRandomizer';
 
 const productStore = useProductStore();
 const props = defineProps(['dataItem']);
@@ -17,16 +18,12 @@ const price = Array.isArray(attributes.Price)
     productStore.setCurrentProduct(dataItem);
   };
 
-function randomizeItemImage() {
-    const randomNumber = Math.floor(Math.random() * 22) + 1;
-    return '/images/products/item' + randomNumber + '.jpg';
-}
 </script>
 <template>
     <div class="product-card">
         <NuxtLink to="/detail" @click="setCurrentProduct()">
             <div class="product-card__image-container">
-            <img :src="randomizeItemImage()" alt="product" class="product-card__image">
+            <img :src="randomizeItemImage(22, 'item')" alt="product" class="product-card__image">
                 <div class="product-card__label-container">
                     <div class="product-card__label-container__content">
                     Sparepart
