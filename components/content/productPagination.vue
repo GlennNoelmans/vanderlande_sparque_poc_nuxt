@@ -14,7 +14,7 @@ const setCurrentPage = (page) => {
     if (page < 1 || page > totalPages.value || page === '...') {
         return;
     }
-    
+
     productStore.setCurrentPage(page);
     if (searchKeyword.value !== null) {
         productStore.searchProducts(currentCustomer.value.id, searchKeyword.value, (productPage.value - 1) * 10);
@@ -59,13 +59,13 @@ const displayedPageNumbers = computed(() => {
 
 <template>
     <div class="product-pagination">
-    <div class="arrow-container" @click="setCurrentPage(productPage - 1)" :class="{ 'disabled': productPage === 1 }">
+    <div class="arrow-container" @click="setCurrentPage(productPage - 1)" :class="{ 'arrow-container__disabled': productPage === 1 }">
       <Icon icon="ri:arrow-left-s-line" class="arrow-container__icon"></Icon>
     </div>
     <div class="pages-container">
         <span v-for="pageNumber in displayedPageNumbers" :key="pageNumber" class="pages-container__page-number" :class="{ 'pages-container__page-number__active': productPage === pageNumber }" @click="setCurrentPage(pageNumber)">{{ pageNumber }}</span>
     </div>
-    <div class="arrow-container" @click="setCurrentPage(productPage + 1)" :class="{ 'disabled': productPage === totalPages }">
+    <div class="arrow-container" @click="setCurrentPage(productPage + 1)" :class="{ 'arrow-container__disabled': productPage === totalPages }">
       <Icon icon="ri:arrow-right-s-line" class="arrow-container__icon"></Icon>
     </div>
   </div>

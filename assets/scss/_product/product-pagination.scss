@@ -51,6 +51,13 @@
     color: black;
   }
 
+  &__disabled {
+    color: #8d98ae;
+    &:hover {
+        color: #8d98ae;
+    }
+  }
+
   &__icon {
     font-size: 24px;
   }

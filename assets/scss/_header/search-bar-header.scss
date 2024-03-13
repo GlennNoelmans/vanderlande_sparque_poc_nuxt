@@ -46,11 +46,6 @@
     display: block;
     padding: 10px;
     transition: border-color 0.3s;
-
-    &:focus {
-      border-color: #58595b;
-      color: #58595b;
-    }
   }
 
   &__button {
@@ -65,6 +60,11 @@
     border-top: 1px solid #a8a9ab;
     border-bottom: 1px solid #a8a9ab;
     border-left: none;
+
+    &:hover {
+      background-color: var(--secondary-color);
+      color: black
+    }
 
     &__inner-container {
         border-left: 1px solid #d2d3d5;;

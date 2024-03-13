@@ -14,8 +14,8 @@ const { totalProducts } = storeToRefs(productStore);
     <div class="result-content">
         <h2 class="result-content__title">Results for: 
             <span class="result-content__title__result">
-                <span v-if="selectedStore === 'store'">{{ searchKeyword }}</span>
-                <span v-else>{{ filteredAsset }}</span>
+                <span v-if="selectedStore === 'store'">"{{ searchKeyword }}"</span>
+                <span v-else>"{{ filteredAsset }}"</span>
             </span>
         </h2>
         <h3 class="result-content__areas">

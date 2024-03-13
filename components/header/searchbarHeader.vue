@@ -2,9 +2,11 @@
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useCustomerStore } from '@/stores/customer';
 import { useProductStore } from '~/stores/products';
+import { useFilterStore } from '~/stores/filter';
 
 const customerStore = useCustomerStore();
 const productStore = useProductStore();
+const filterStore = useFilterStore();
 const { currentCustomer } = storeToRefs(customerStore);
 const searchKeyword = ref('');
 
@@ -17,6 +19,7 @@ const search = () => {
     productStore.setCurrentPage(1);
     productStore.setSearchKeyword(searchKeyword.value);
     productStore.setIsSearchActive(true);
+    filterStore.setSelectedStore("store");
 }
 </script>
 
