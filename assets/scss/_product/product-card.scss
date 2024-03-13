@@ -28,6 +28,12 @@
     -webkit-box-orient: vertical;
     word-wrap: break-word;
     cursor: pointer;
+    text-decoration: none;
+
+    & a {
+      text-decoration: none;
+      color: #000;
+    }
   }
 
   &__part-number {
@@ -50,7 +56,9 @@
 
     &__amount {
       font-size: 1.8rem;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+        sans-serif;
     }
 
     &__each {
@@ -60,21 +68,39 @@
 
   &__footer {
     margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+
+    &__details-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+    }
 
     &__details-link {
-      display: flex;
-      color: var(--primary-color);
       font-weight: 500;
       margin-top: 2rem;
-      margin-bottom: 2rem;
+      font-size: 14px;
       cursor: pointer;
+
+      & a {
+        display: flex;
+        color: var(--primary-color);
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
 
     &__filter-button {
       background-color: var(--primary-color);
+      font-size: 12px;
       color: white;
-      padding-block: 1.2rem;
-      padding-inline: 2.5rem;
+      padding-block: 1rem;
+      padding-inline: 0.6rem;
+      white-space: nowrap;
       border: none;
       font-weight: 600;
       cursor: pointer;
@@ -88,8 +114,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 125px;
-  font-size: 20px;
+  width: 80px;
+  font-size: 18px;
   font-weight: 400;
   margin-bottom: 1rem;
 
@@ -115,7 +141,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 12px;
+      width: 8px;
       color: var(--primary-color);
     }
   }

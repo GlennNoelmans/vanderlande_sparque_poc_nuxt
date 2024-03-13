@@ -3,13 +3,11 @@ import { Icon } from '@iconify/vue/dist/iconify.js';
 
 const props = defineProps(['dataItem']);
 const { dataItem } = props;
-console.log(dataItem);
 const attributes = dataItem.tuple[0].attributes;
 const description = Array.isArray(attributes.Description)
     ? attributes.Description[0]
     : attributes.Description;
 
-console.log(attributes.Image[0].ImageURL[0]);
 const imageUrl = Array.isArray(attributes.Image)
     ? attributes.Image[0].ImageURL[0]
     : null;
@@ -17,7 +15,6 @@ const imageUrl = Array.isArray(attributes.Image)
 
 <template>
     <div class="hierarchy-card">
-        {{ attributes.Image[0].ImageURL[0] }}
         <img v-if="imageUrl" :src="imageUrl" class="hierarchy-card__image">
         <img src="https://drive.google.com/file/d/1LhFv9Q4EOMNhUEir_mACUUDscKRvx1DB/view?usp=sharing"
             crossorigin="anonymous" referrerpolicy="no-referrer">

@@ -1,15 +1,32 @@
 <script setup>
 import { Icon } from '@iconify/vue/dist/iconify.js';
+import { useCustomerStore } from '@/stores/customer';
+import { useProductStore } from '~/stores/products';
+
+const customerStore = useCustomerStore();
+const productStore = useProductStore();
+const { currentCustomer } = storeToRefs(customerStore);
+const searchKeyword = ref('');
+
+const openCustomerModal = () => {
+    customerStore.toggleShowModal(true);
+};
+
+const search = () => {
+    productStore.searchProducts(currentCustomer.value.id, searchKeyword.value, 0);
+    productStore.setCurrentPage(1);
+    productStore.setSearchKeyword(searchKeyword.value);
+}
 </script>
 
 <template>
     <div class="search-header">
             <div class="search-header-container">
-                <h1 class="search-header-container__title">Fenego & Sparque.AI - POC</h1>
+                <h1 class="search-header-container__title"><NuxtLink to="./">Fenego & Sparque.AI - POC</NuxtLink></h1>
                 <div class="search-container">
-                    <input type="text" class="search-container__input"
+                    <input v-model="searchKeyword" type="text" class="search-container__input"
                         placeholder="Search by product name, item number or mark-number...">
-                    <button class="search-container__button">
+                    <button @click="search" class="search-container__button">
                         <div class="search-container__button__inner-container">
                             <Icon icon="fa:search" class="search-container__icon"></Icon>
                         </div>
@@ -23,7 +40,7 @@ import { Icon } from '@iconify/vue/dist/iconify.js';
                             <p class="address-container__street-name">Rooseveltlaan 1</p>
                         </div>
                     </div>
-                    <div class="edit-location-container">
+                    <div class="edit-location-container" @click="openCustomerModal()">
                         <Icon icon="subway:pencil" class="edit-location-container__icon"></Icon>
                         <p class="edit-location-container__title">Change</p>
                     </div>

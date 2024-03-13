@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     { path: '~/components/header', extensions: ['vue'] },
     { path: '~/components/product', extensions: ['vue'] },
     { path: '~/components/modals', extensions: ['vue'] },
+    { path: '~/components/detail', extensions: ['vue'] },
   ],
   modules: [
     '@pinia/nuxt',

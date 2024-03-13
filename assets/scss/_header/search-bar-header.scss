@@ -7,6 +7,11 @@
   padding-top: 10px;
   padding-bottom: 10px;
   width: 100%;
+
+  & a {
+    color: white;
+    text-decoration: none;
+  }
 }
 
 .search-header-container {
@@ -116,6 +121,15 @@
   align-items: center;
   margin-left: 20px;
   margin-right: calc(3rem + 15px);
+  cursor: pointer;
+
+  &:hover {
+    color: #d2d3d5;
+  }
+
+  &:hover &__icon {
+    border-color: #d2d3d5;
+  }
 
   &__icon {
     font-size: 14px;

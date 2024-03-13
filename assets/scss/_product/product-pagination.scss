@@ -7,16 +7,16 @@
 }
 
 .pages-container {
-    padding: .8rem;
-    background-color: #E6EBF6;
-    color: var(--primary-color);
+    padding-inline: 1.4rem;
+    padding-block: .5rem;
+    background-color: var(--primary-color);
     margin-left: 1rem;
     margin-right: 1rem;
-    border-radius: 50px;
+    border-radius: 8px;
 
     &__page-number {
-        color: var(--primary-color);
-        font-size: 16px;
+        color: white;
+        font-size: 20px;
         font-weight: 500;
         cursor: pointer;
     }
@@ -31,6 +31,10 @@
     justify-content: center;
     color: var(--primary-color);
     cursor: pointer;
+
+    &:hover {
+        color: black;
+    }
     
     &__icon {
         font-size: 24px;

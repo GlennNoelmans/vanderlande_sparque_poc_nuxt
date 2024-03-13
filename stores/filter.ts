@@ -3,14 +3,20 @@ export const useFilterStore = defineStore("filter", {
     areas: [] as any,
     zones: [] as any,
     assets: [] as any,
+    assetsShown: [] as any,
     products: [],
     selectedStore: "store",
+    selectedComponentHeader: "child",
     filteredAsset: "" as string,
+    hierarchyPage: 1 as number | string,
   }),
   getters: {},
   actions: {
     setSelectedStore(store: string) {
       this.selectedStore = store;
+    },
+    setSelectedComponentHeader(selectedHeader: string) {
+      this.selectedComponentHeader = selectedHeader;
     },
     setAreas(data: any) {
       this.areas = data;
@@ -18,16 +24,16 @@ export const useFilterStore = defineStore("filter", {
     setFilteredAsset(markNumber: string) {
       this.filteredAsset = markNumber;
     },
-    clearAssets() {
-      this.assets = [];
+    clearAssetsShown() {
+      this.assetsShown = [];
     },
-    
+
     async fetchStructure(
       site_id: number,
       keyword: number | string,
       depthLevel: string
     ) {
-      this.clearAssets();
+      this.clearAssetsShown();
       const runtimeConfig = useRuntimeConfig();
 
       try {
@@ -39,21 +45,22 @@ export const useFilterStore = defineStore("filter", {
             },
           }
         );
-        this.assets = data;
-        // var depthLevelNumber = parseInt(depthLevel, 10);
-        // switch (depthLevelNumber + 1) {
-        //   case 2:
-        //     this.areas = data;
-        //     break;
-        //   case 3:
-        //     this.zones = data;
-        //     break;
-        //   case 4:
-        //     this.assets = data;
-        //     break;
-        //   default:
-        //     break;
-        // }
+        
+        this.assetsShown = data;
+        var depthLevelNumber = parseInt(depthLevel, 10);
+        switch (depthLevelNumber + 1) {
+          case 2:
+            this.areas = data;
+            break;
+          case 3:
+            this.zones = data;
+            break;
+          case 4:
+            this.assets = data;
+            break;
+          default:
+            break;
+        }
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
         throw error;
