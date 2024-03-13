@@ -17,16 +17,22 @@ const price = Array.isArray(attributes.Price)
     productStore.setCurrentProduct(dataItem);
   };
 
+function randomizeItemImage() {
+    const randomNumber = Math.floor(Math.random() * 22) + 1;
+    return '/images/products/item' + randomNumber + '.jpg';
+}
 </script>
 <template>
     <div class="product-card">
         <NuxtLink to="/detail" @click="setCurrentProduct()">
-            <div class="product-card__image">
+            <div class="product-card__image-container">
+            <img :src="randomizeItemImage()" alt="product" class="product-card__image">
                 <div class="product-card__label-container">
                     <div class="product-card__label-container__content">
                     Sparepart
                 </div>
                 </div>
+            </img>
             </div>
         </NuxtLink>
     
