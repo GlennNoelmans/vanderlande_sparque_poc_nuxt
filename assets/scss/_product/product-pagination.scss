@@ -1,42 +1,57 @@
 .product-pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: var(--content-max-width);
-    margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: var(--content-max-width);
+  margin-bottom: 2rem;
+  margin-top: 1rem;
 }
 
 .pages-container {
-    padding-inline: 1.4rem;
-    padding-block: .5rem;
-    background-color: var(--primary-color);
-    margin-left: 1rem;
-    margin-right: 1rem;
-    border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  padding-inline: 1.4rem;
+  padding-block: 0.4rem;
+  background-color: #e6ebf6;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  border-radius: 50px;
+  color: var(--primary-color);
 
-    &__page-number {
-        color: white;
-        font-size: 20px;
-        font-weight: 500;
-        cursor: pointer;
+  &__page-number {
+    font-family: var(--numberFont);
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: .5rem;
+    margin-right: .5rem;
+    cursor: pointer;
+
+    &__active {
+      color: white;
+      padding-block: 0.6rem;
+      padding-inline: 1.2rem;
+      background-color: var(--primary-color);
+      border-radius: 8px;
     }
+  }
 }
 
 .arrow-container {
-    background-color: #E6EBF6;
-    padding: .5em;
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--primary-color);
-    cursor: pointer;
+  background-color: #e6ebf6;
+  padding: 0.5em;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+  cursor: pointer;
 
-    &:hover {
-        color: black;
-    }
-    
-    &__icon {
-        font-size: 24px;
-    }
+  &:hover {
+    color: black;
+  }
+
+  &__icon {
+    font-size: 24px;
+  }
 }

@@ -32,6 +32,8 @@
 
   &__mark-number {
     margin-bottom: 0.2rem;
+    font-family: var(--numberFont);
+    font-size: 14px;
   }
 
   &__mark-code {

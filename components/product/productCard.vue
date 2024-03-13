@@ -20,9 +20,15 @@ const price = Array.isArray(attributes.Price)
 </script>
 <template>
     <div class="product-card">
-    <NuxtLink to="/detail" @click="setCurrentProduct()">
-        <div class="product-card__image"></div>
-    </NuxtLink>
+        <NuxtLink to="/detail" @click="setCurrentProduct()">
+            <div class="product-card__image">
+                <div class="product-card__label-container">
+                    <div class="product-card__label-container__content">
+                    Sparepart
+                </div>
+                </div>
+            </div>
+        </NuxtLink>
     
         <p class="product-card__title"><NuxtLink to="/detail" @click="setCurrentProduct()">{{ description }}</NuxtLink></p>
     

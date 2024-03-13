@@ -5,8 +5,16 @@ export const useProductStore = defineStore("products", {
     productPage: 1 as number,
     isSearchActive: false as boolean,
     searchKeyword: null as string | null,
+    initialDataLoaded: false as boolean,
   }),
-  getters: {},
+  getters: {
+    totalProducts(state): number {
+      return state?.products[1]?.total;
+    },
+    totalPages(): number {
+      return Math.ceil(this.totalProducts / 10);
+    },
+  },
   actions: {
     clearProducts() {
       this.products = [];
@@ -22,6 +30,9 @@ export const useProductStore = defineStore("products", {
     },
     setSearchKeyword(keyword: string) {
       this.searchKeyword = keyword;
+    },
+    setInitialDataLoaded(isLoaded: boolean) {
+      this.initialDataLoaded = isLoaded;
     },
     async fetchAllProducts(
       site_id: number,

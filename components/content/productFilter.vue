@@ -6,7 +6,7 @@ import zoneList from './zoneList.vue';
 
 const filterStore = useFilterStore();
 const customerStore = useCustomerStore();
-const isActiveStructure = ref("0001.00.000.000");
+const isActiveStructure = ref("");
 const { areas } = storeToRefs(filterStore);
 const runtimeConfig = useRuntimeConfig();
 const { currentCustomer } = storeToRefs(customerStore);

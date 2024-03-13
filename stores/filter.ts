@@ -4,7 +4,7 @@ export const useFilterStore = defineStore("filter", {
     zones: [] as any,
     assets: [] as any,
     assetsShown: [] as any,
-    products: [],
+    resultMarkCode: "" as string,
     selectedStore: "store",
     selectedComponentHeader: "child",
     filteredAsset: "" as string,

@@ -16,6 +16,7 @@ const search = () => {
     productStore.searchProducts(currentCustomer.value.id, searchKeyword.value, 0);
     productStore.setCurrentPage(1);
     productStore.setSearchKeyword(searchKeyword.value);
+    productStore.setIsSearchActive(true);
 }
 </script>
 

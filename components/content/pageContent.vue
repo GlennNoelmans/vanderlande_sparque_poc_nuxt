@@ -5,10 +5,20 @@ import { useProductStore } from '~/stores/products';
 const filterStore = useFilterStore();
 const productStore = useProductStore();
 const runtimeConfig = useRuntimeConfig();
-const { productPage } = storeToRefs(productStore);
-filterStore.fetchStructure(runtimeConfig.public.SITE_ID, 2, 1);
-filterStore.fetchStructure(runtimeConfig.public.SITE_ID, "SYS53288810", "2");
-productStore.fetchAllProducts(runtimeConfig.public.SITE_ID, 0);
+const { initialDataLoaded } = storeToRefs(productStore);
+
+
+const fetchData = async () => {
+    if (!initialDataLoaded.value) {
+        await Promise.all([
+            filterStore.fetchStructure(runtimeConfig.public.SITE_ID, 2, 1),
+            productStore.fetchAllProducts(runtimeConfig.public.SITE_ID, 0)
+        ]);
+        productStore.setInitialDataLoaded(true);
+    }; 
+};
+
+useAsyncData(fetchData);
 </script>
 <template>
     <div>
