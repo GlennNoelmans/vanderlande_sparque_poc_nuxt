@@ -1,5 +1,6 @@
 export const toggleActiveStructureAndFetchNewLevel = (tupleItem: any, activeArea: any, activeZone: any, activeAsset: any, filterStore: any, runtimeConfig: any) => {
-    if (tupleItem.attributes.MarkCode.toUpperCase() == 'AREA') {
+    console.log(tupleItem.attributes.systemDepthNumber);
+    if (tupleItem.attributes.systemDepthNumber == 2) {    
         if (activeArea == tupleItem.attributes.MarkNumber) {
             filterStore.setActiveArea("");
             filterStore.setActiveZone("");
@@ -9,7 +10,7 @@ export const toggleActiveStructureAndFetchNewLevel = (tupleItem: any, activeArea
         else {
             filterStore.setActiveArea(tupleItem.attributes.MarkNumber);
         }
-    } else if (tupleItem.attributes.MarkCode.toUpperCase() == 'ZONE') {
+    } else if (tupleItem.attributes.systemDepthNumber == 3) {
         if (activeZone == tupleItem.attributes.MarkNumber) {
             filterStore.setActiveZone("");
             filterStore.setActiveAsset("");

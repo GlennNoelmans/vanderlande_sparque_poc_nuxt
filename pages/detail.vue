@@ -17,7 +17,6 @@ const { currentProduct } = storeToRefs(productStore);
       <div class="detail-content-container">
         <div class="container">
           <div class="detail-content">
-            {{ currentProduct }}
             <button class="detail-content__link"><NuxtLink to="./"><Icon icon="ri:arrow-left-s-line"></Icon>Back to results</NuxtLink></button>
             <div class="product-detail-container">
               <div class="product-gallery">
@@ -54,6 +53,12 @@ const { currentProduct } = storeToRefs(productStore);
               </div>
             </div>
             <ProductComponentSelectionHeader />
+            <div class="child-components-container">
+              children
+            </div>
+            <div class="parent-components-container">
+              parents
+            </div>
           </div>
         </div>
       </div>
