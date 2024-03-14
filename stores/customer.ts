@@ -4,7 +4,6 @@ export const useCustomerStore = defineStore("customer", {
     state: () => ({
       currentCustomer: [] as any,
       showModal: false,
-      initialDataLoaded: false,
     }),
     getters: {},
     actions: {

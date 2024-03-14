@@ -1,26 +1,17 @@
 <script setup>
 import { useFilterStore } from '@/stores/filter';
-import { useCustomerStore } from '@/stores/customer';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import zoneList from './zoneList.vue';
+import { toggleActiveStructureAndFetchNewLevel } from '~/utils/AssetStructureOrganizer';
 
 const filterStore = useFilterStore();
-const customerStore = useCustomerStore();
-const isActiveStructure = ref("");
 const { areas } = storeToRefs(filterStore);
 const runtimeConfig = useRuntimeConfig();
-const { currentCustomer } = storeToRefs(customerStore);
+const { activeArea } = storeToRefs(filterStore);
+const { activeZone } = storeToRefs(filterStore);
+const { activeAsset } = storeToRefs(filterStore);
 
-const toggleActiveStructureAndFetchNewLevel = (tupleItem) => {
-    if (isActiveStructure.value == tupleItem.attributes.MarkNumber) {
-        isActiveStructure.value = "";
-        return;
-    }
-    isActiveStructure.value = tupleItem.attributes.MarkNumber;
-    filterStore?.fetchStructure(runtimeConfig.public.SITE_ID, tupleItem.attributes.AssetID, tupleItem.attributes.systemDepthNumber);
-    filterStore?.setFilteredAsset(tupleItem.attributes.MarkNumber);
-    filterStore.setSelectedStore("base");
-};
+
 </script>
 
 <template>
@@ -31,9 +22,9 @@ const toggleActiveStructureAndFetchNewLevel = (tupleItem) => {
         <div v-for="(dataItem, dataIndex) in areas" :key="dataIndex">
             <div v-for="(item, itemIndex) in dataItem.items" :key="itemIndex">
                 <div v-for="(tupleItem, tupleIndex) in item.tuple" :key="tupleIndex">
-                    <div class="product-filter" @click="toggleActiveStructureAndFetchNewLevel(tupleItem)"
-                        :class="{ 'product-filter__active': isActiveStructure === tupleItem.attributes.MarkNumber }">
-                        <template v-if="isActiveStructure == tupleItem.attributes.MarkNumber">
+                    <div class="product-filter" @click="toggleActiveStructureAndFetchNewLevel(tupleItem, activeArea, activeZone, activeAsset, filterStore, runtimeConfig)"
+                        :class="{ 'product-filter__active': activeArea === tupleItem.attributes.MarkNumber }">
+                        <template v-if="activeArea == tupleItem.attributes.MarkNumber">
                             <Icon icon="ri:arrow-down-s-line" class="product-filter__arrow"></Icon>
                         </template>
 
@@ -43,7 +34,7 @@ const toggleActiveStructureAndFetchNewLevel = (tupleItem) => {
                         <span class="product-filter__mark-number">{{ tupleItem.attributes.MarkNumber }}</span>
                     </div>
 
-                    <div v-if="isActiveStructure == tupleItem.attributes.MarkNumber" class="product-filter__assets-container">
+                    <div v-if="activeArea == tupleItem.attributes.MarkNumber" class="product-filter__assets-container">
                         <zoneList />
                     </div>
                 </div>

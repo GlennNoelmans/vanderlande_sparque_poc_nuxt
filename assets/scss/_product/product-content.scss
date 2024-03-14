@@ -1,17 +1,31 @@
 .product-content-container {
-    flex: 1;
+  flex: 1;
 }
 
 .product-card-container {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    gap: var(--product-card-gap);
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: var(--product-card-gap);
+}
+
+.product-card-inner-container {
+  width: calc(
+    (100% / var(--numberOfProductsPerRow)) - var(--product-card-gap) +
+      (var(--product-card-gap) / var(--numberOfProductsPerRow))
+  );
 }
 
 .hierarchy-card-container {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    gap: var(--product-card-gap);
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: var(--product-card-gap);
+}
+
+.hierarchy-card-inner-container {
+  width: calc(
+    (100% / var(--numberOfProductsPerRow)) - var(--product-card-gap) +
+      (var(--product-card-gap) / var(--numberOfProductsPerRow))
+  );
 }

@@ -7,18 +7,14 @@ const productStore = useProductStore();
 const runtimeConfig = useRuntimeConfig();
 const { initialDataLoaded } = storeToRefs(productStore);
 
+if (!initialDataLoaded.value) {
+    await Promise.all([
+        filterStore.fetchStructure(runtimeConfig.public.SITE_ID, 2, 1),
+        productStore.fetchAllProducts(runtimeConfig.public.SITE_ID, 0)
+    ]);
+    productStore.setInitialDataLoaded(true);
+}; 
 
-const fetchData = async () => {
-    if (!initialDataLoaded.value) {
-        await Promise.all([
-            filterStore.fetchStructure(runtimeConfig.public.SITE_ID, 2, 1),
-            productStore.fetchAllProducts(runtimeConfig.public.SITE_ID, 0)
-        ]);
-        productStore.setInitialDataLoaded(true);
-    }; 
-};
-
-useAsyncData(fetchData);
 </script>
 <template>
     <div>

@@ -3,11 +3,14 @@ export const useFilterStore = defineStore("filter", {
     areas: [] as any,
     zones: [] as any,
     assets: [] as any,
+    activeArea: "" as string,
+    activeZone: "" as string,
+    activeAsset: "" as string,
     assetsShown: [] as any,
-    resultMarkCode: "" as string,
     selectedStore: "store",
     selectedComponentHeader: "child",
     filteredAsset: "" as string,
+    filteredAssetLabel: "Area" as string,
     hierarchyPage: 1 as number | string,
   }),
   getters: {},
@@ -21,8 +24,20 @@ export const useFilterStore = defineStore("filter", {
     setAreas(data: any) {
       this.areas = data;
     },
+    setActiveArea(area: string) {
+      this.activeArea = area;
+    },
+    setActiveZone(zone: string) {
+      this.activeZone = zone;
+    },
+    setActiveAsset(asset: string) {
+      this.activeAsset = asset;
+    },
     setFilteredAsset(markNumber: string) {
       this.filteredAsset = markNumber;
+    },
+    setFilteredAssetLabel(label: string) {
+      this.filteredAssetLabel = label;
     },
     clearAssetsShown() {
       this.assetsShown = [];

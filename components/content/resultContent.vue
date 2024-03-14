@@ -7,6 +7,7 @@ const productStore = useProductStore();
 const { filteredAsset } = storeToRefs(filterStore);
 const { assetsShown } = storeToRefs(filterStore);
 const { selectedStore } = storeToRefs(filterStore);
+const { filteredAssetLabel } = storeToRefs(filterStore);
 const { searchKeyword } = storeToRefs(productStore);
 const { totalProducts } = storeToRefs(productStore);
 </script>
@@ -20,7 +21,7 @@ const { totalProducts } = storeToRefs(productStore);
         </h2>
         <h3 class="result-content__areas">
             <div v-if="selectedStore === 'store'">{{ totalProducts }} <span v-if="totalProducts > 1">Products</span><span v-else>Product</span></div>
-            <div v-else>{{ assetsShown[0]?.items?.length }} <span v-if="assetsShown[0]?.items?.length > 1">Areas</span><span v-else>Area</span></div> found
+            <div v-else>{{ assetsShown[0]?.items?.length }} <span>{{ filteredAssetLabel }}</span><span v-if="assetsShown[0]?.items?.length > 1 || assetsShown[0]?.items?.length == 0">s</span></div> found
         </h3>
     </div>
 </template>

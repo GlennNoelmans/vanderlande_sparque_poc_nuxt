@@ -1,8 +1,5 @@
 .hierarchy-card {
-  width: calc(
-    (100% / var(--numberOfProductsPerRow)) - var(--product-card-gap) +
-      (var(--product-card-gap) / var(--numberOfProductsPerRow))
-  );
+  
   border-bottom: 2px solid #e5eaf5;
   padding-bottom: 2rem;
   margin-bottom: calc(var(--product-card-gap) / 2);

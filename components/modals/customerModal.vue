@@ -27,6 +27,10 @@ const selectCustomer = () => {
     productStore.fetchAllProducts(currentCustomer.value.id, 0);
     runtimeConfig.public.SITE_ID = currentCustomer.value.id;
     customerStore.toggleShowModal(false);
+    filterStore.setFilteredAssetLabel("Area");
+    filterStore.setActiveArea("");
+    filterStore.setActiveZone("");
+    filterStore.setActiveAsset("");
 };
 
 const closeCustomerModal = () => {

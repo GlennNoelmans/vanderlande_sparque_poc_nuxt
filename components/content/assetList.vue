@@ -1,26 +1,29 @@
 <script setup>
 import { useFilterStore } from "@/stores/filter";
 import { Icon } from "@iconify/vue/dist/iconify.js";
+import { setFilteredAssetLabel } from '~/utils/AssetLabelSetter';
 
 const filterStore = useFilterStore();
 const { assets } = storeToRefs(filterStore);
 const runtimeConfig = useRuntimeConfig();
-const isActiveStructure = ref("");
+const { activeAsset } = storeToRefs(filterStore);
 
 const toggleActiveStructureAndFetchNewLevel = (tupleItem) => {
-    if (isActiveStructure.value == tupleItem.attributes.MarkNumber) {
-        isActiveStructure.value = "";
+    if (activeAsset.value == tupleItem.attributes.MarkNumber) {
+        filterStore.setActiveAsset("");
         return;
     }
-  isActiveStructure.value = tupleItem.attributes.MarkNumber;
-  filterStore?.fetchStructure(
+    filterStore.setActiveAsset(tupleItem.attributes.MarkNumber);
+    filterStore?.fetchStructure(
     runtimeConfig.public.SITE_ID,
     tupleItem.attributes.AssetID,
     tupleItem.attributes.systemDepthNumber
   );
   filterStore?.setFilteredAsset(tupleItem.attributes.MarkNumber);
   filterStore.setSelectedStore("base");
+  setFilteredAssetLabel(tupleItem.attributes.MarkCode, filterStore);
 };
+
 </script>
 <template>
   <div v-for="(dataItem, dataIndex) in assets" :key="dataIndex">
@@ -31,10 +34,10 @@ const toggleActiveStructureAndFetchNewLevel = (tupleItem) => {
           @click="toggleActiveStructureAndFetchNewLevel(tupleItem)"
           :class="{
             'product-filter__active':
-              isActiveStructure === tupleItem.attributes.MarkNumber,
+              activeAsset === tupleItem.attributes.MarkNumber,
           }"
         >
-          <template v-if="isActiveStructure == tupleItem.attributes.MarkNumber">
+          <template v-if="activeAsset == tupleItem.attributes.MarkNumber">
             <Icon
               icon="ri:arrow-down-s-line"
               class="product-filter__arrow"
