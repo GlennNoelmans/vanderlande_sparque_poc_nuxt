@@ -12,6 +12,7 @@ export const useFilterStore = defineStore("filter", {
     filteredAsset: "" as string,
     filteredAssetLabel: "Area" as string,
     hierarchyPage: 1 as number | string,
+    isHierarchyLoaded: false as Boolean,
   }),
   getters: {},
   actions: {
@@ -48,9 +49,9 @@ export const useFilterStore = defineStore("filter", {
       keyword: number | string,
       depthLevel: string
     ) {
+      this.isHierarchyLoaded = true;
       this.clearAssetsShown();
       const runtimeConfig = useRuntimeConfig();
-
       try {
         const data = await $fetch(
           `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Hierarchy/p/siteID/${site_id}/p/query/${keyword}/results,count?config=default`,
@@ -60,8 +61,8 @@ export const useFilterStore = defineStore("filter", {
             },
           }
         );
-        
         this.assetsShown = data;
+        this.isHierarchyLoaded = false;
         var depthLevelNumber = parseInt(depthLevel, 10);
         switch (depthLevelNumber + 1) {
           case 2:

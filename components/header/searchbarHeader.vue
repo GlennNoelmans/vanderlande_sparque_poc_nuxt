@@ -26,7 +26,7 @@ const search = () => {
 <template>
     <div class="search-header">
             <div class="search-header-container">
-                <h1 class="search-header-container__title"><NuxtLink to="./">Fenego & Sparque.AI - POC</NuxtLink></h1>
+                <h1 class="search-header-container__title"><NuxtLink to="/">Fenego & Sparque.AI - POC</NuxtLink></h1>
                 <div class="search-container">
                     <input v-model="searchKeyword" type="text" class="search-container__input"
                         placeholder="Search by product name, item number or mark-number...">

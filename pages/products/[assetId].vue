@@ -1,23 +1,30 @@
 <script setup>
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useProductStore } from '~/stores/products';
+import { useCustomerStore } from '@/stores/customer';
 
 const productStore = useProductStore();
 const { currentProduct } = storeToRefs(productStore);
+const { childComponents } = storeToRefs(productStore);
+const { parentComponents } = storeToRefs(productStore);
+const customerStore = useCustomerStore();
+const { currentCustomer } = storeToRefs(customerStore);
+const { assetId } = useRoute().params;
 
-// const description = Array.isArray(attributes.Description)
-//   ? attributes.Description[0]
-//   : attributes.Description;
-// const price = Array.isArray(attributes.Price)
-//   ? attributes.Price[0]
-//   : attributes.Price;
+productStore.getChildComponentsOfProduct(currentCustomer?.value?.id, assetId.toString());
+productStore.getParentComponentsOfProduct(currentCustomer?.value?.id, assetId.toString());
 </script>
 <template>
     <div>
+        <div v-if="assetId">{{ assetId }}</div>
+        <div>children</div>
+      <p>{{ childComponents }}</p>
+      <div>parents</div>
+      <p>{{ parentComponents }}</p>
       <div class="detail-content-container">
         <div class="container">
           <div class="detail-content">
-            <button class="detail-content__link"><NuxtLink to="./"><Icon icon="ri:arrow-left-s-line"></Icon>Back to results</NuxtLink></button>
+            <button class="detail-content__link"><NuxtLink to="/"><Icon icon="ri:arrow-left-s-line"></Icon>Back to results</NuxtLink></button>
             <div class="product-detail-container">
               <div class="product-gallery">
                 <div class="product-gallery__image">
@@ -36,7 +43,7 @@ const { currentProduct } = storeToRefs(productStore);
               <div class="product-details-container">
                 <h3 class="product-details-container__title">{{ currentProduct?.tuple[0]?.attributes?.Description }}</h3>
                 <p class="product-details-container__part-number">Part number: <span>{{ currentProduct?.tuple[0]?.attributes?.ItemSKU }}</span></p>
-                <button class="detail-content__link"><NuxtLink to="./"><Icon icon="ri:arrow-right-s-line"></Icon>View product locations & children</NuxtLink></button>
+                <button class="detail-content__link"><NuxtLink to="/"><Icon icon="ri:arrow-right-s-line"></Icon>View product locations & children</NuxtLink></button>
                 <div class="product-details-container__footer">
                   <div class="product-card__price-container"><p class="product-card__price-container__amount">{{ currentProduct?.tuple[0]?.attributes?.Price }}</p><span class="product-card__price-container__each"> / Each</span></div>
                   <div>
@@ -54,6 +61,7 @@ const { currentProduct } = storeToRefs(productStore);
             </div>
             <ProductComponentSelectionHeader />
             <div class="child-components-container">
+              {{ currentProduct }}
               children
             </div>
             <div class="parent-components-container">

@@ -5,12 +5,14 @@ import { useProductStore } from '~/stores/products';
 const filterStore = useFilterStore();
 const productStore = useProductStore();
 const runtimeConfig = useRuntimeConfig();
+const initialCustomerId = runtimeConfig.public.SITE_ID;
 const { initialDataLoaded } = storeToRefs(productStore);
 
 if (!initialDataLoaded.value) {
     await Promise.all([
-        filterStore.fetchStructure(runtimeConfig.public.SITE_ID, 2, 1),
-        productStore.fetchAllProducts(runtimeConfig.public.SITE_ID, 0)
+        filterStore.fetchStructure(initialCustomerId, 2, 1),
+        productStore.fetchAllProducts(initialCustomerId, 0),
+        productStore.fetchAllProductCategories(initialCustomerId, "", 0),
     ]);
     productStore.setInitialDataLoaded(true);
 }; 
