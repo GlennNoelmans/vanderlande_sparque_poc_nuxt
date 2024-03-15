@@ -7,7 +7,8 @@ export const useProductStore = defineStore("products", {
     parentComponents: [] as any,
     productPage: 1 as number,
     isSearchActive: false as boolean,
-    searchKeyword: null as string | null,
+    searchKeyword: null as null | string,
+    categoryFilter: null as null | string,
     initialDataLoaded: false as boolean,
     isProductLoaded: false as boolean,
   }),
@@ -44,6 +45,9 @@ export const useProductStore = defineStore("products", {
     setSearchKeyword(keyword: string) {
       this.searchKeyword = keyword;
     },
+    setCategoryFilter(filter: string) {
+      this.categoryFilter = filter;
+    },
     setInitialDataLoaded(isLoaded: boolean) {
       this.initialDataLoaded = isLoaded;
     },
@@ -73,14 +77,13 @@ export const useProductStore = defineStore("products", {
     async fetchAllProductCategories(
       site_id: number,
       keyword: string,
-      offset: string,
     ) {
       this.clearProductCategories();
       const runtimeConfig = useRuntimeConfig();
       try {
         
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/results,count?config=default&count=${offset}`,
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/results,count?config=default`,
           {
             headers: {
               Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
@@ -97,6 +100,7 @@ export const useProductStore = defineStore("products", {
 
     async fetchProductsFilteredByCategory(
       site_id: number,
+      keyword: string,
       filter: string,
       offset: string,
     ) {
@@ -105,7 +109,7 @@ export const useProductStore = defineStore("products", {
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/e/SearchFilter/p/filter/${filter}/results,count?config=default&count=${offset}`,
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/SearchFilter/p/filter/${filter}/results,count?config=default&count=10&offset=${offset}`,
           {
             headers: {
               Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,

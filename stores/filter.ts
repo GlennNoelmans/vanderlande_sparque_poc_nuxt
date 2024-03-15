@@ -5,16 +5,23 @@ export const useFilterStore = defineStore("filter", {
     assets: [] as any,
     activeArea: "" as string,
     activeZone: "" as string,
-    activeAsset: "" as string,
+    activeAsset: null as null | string,
     assetsShown: [] as any,
     selectedStore: "store",
-    selectedComponentHeader: "child",
-    filteredAsset: "" as string,
+    selectedComponentHeader: "location",
+    filteredAsset: null as any,
     filteredAssetLabel: "Area" as string,
-    hierarchyPage: 1 as number | string,
+    hierarchyPage: 1 as number,
     isHierarchyLoaded: false as Boolean,
   }),
-  getters: {},
+  getters: {
+    totalProducts(state): number {
+      return state?.assetsShown[1]?.total;
+    },
+    totalPages(): number {
+      return Math.ceil(this.totalProducts / 10);
+    },
+  },
   actions: {
     setSelectedStore(store: string) {
       this.selectedStore = store;
@@ -34,8 +41,8 @@ export const useFilterStore = defineStore("filter", {
     setActiveAsset(asset: string) {
       this.activeAsset = asset;
     },
-    setFilteredAsset(markNumber: string) {
-      this.filteredAsset = markNumber;
+    setFilteredAsset(tupleItem: any) {
+      this.filteredAsset = tupleItem;
     },
     setFilteredAssetLabel(label: string) {
       this.filteredAssetLabel = label;
@@ -43,18 +50,21 @@ export const useFilterStore = defineStore("filter", {
     clearAssetsShown() {
       this.assetsShown = [];
     },
-
+    setCurrentPage(page: number) {
+      this.hierarchyPage = page;
+    },
     async fetchStructure(
       site_id: number,
       keyword: number | string,
-      depthLevel: string
+      depthLevel: string,
+      offset: number,
     ) {
       this.isHierarchyLoaded = true;
       this.clearAssetsShown();
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Hierarchy/p/siteID/${site_id}/p/query/${keyword}/results,count?config=default`,
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Hierarchy/p/siteID/${site_id}/p/query/${keyword}/results,count?config=default&offset=${offset}`,
           {
             headers: {
               Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,

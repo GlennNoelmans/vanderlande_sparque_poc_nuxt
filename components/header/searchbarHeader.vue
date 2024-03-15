@@ -16,7 +16,9 @@ const openCustomerModal = () => {
 
 const search = () => {
     productStore.searchProducts(currentCustomer.value.id, searchKeyword.value, 0);
+    productStore.fetchAllProductCategories(currentCustomer.value.id, searchKeyword.value),
     productStore.setCurrentPage(1);
+    productStore.setCategoryFilter(null);
     productStore.setSearchKeyword(searchKeyword.value);
     productStore.setIsSearchActive(true);
     filterStore.setSelectedStore("store");

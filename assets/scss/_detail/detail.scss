@@ -98,3 +98,13 @@
 .child-components-container {
   
 }
+
+.parent-components-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: var(--product-card-gap);
+}
+.parent-components-inner-container {
+  width: calc(100% / var(--numberOfProductsPerRow) - var(--product-card-gap) + var(--product-card-gap) / var(--numberOfProductsPerRow));
+}

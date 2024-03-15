@@ -16,12 +16,12 @@ const { totalProducts } = storeToRefs(productStore);
         <h2 class="result-content__title">Results for: 
             <span class="result-content__title__result">
                 <span v-if="selectedStore === 'store'">"{{ searchKeyword }}"</span>
-                <span v-else>"{{ filteredAsset }}"</span>
+                <span v-else>"{{ filteredAsset?.attributes?.MarkNumber }}"</span>
             </span>
         </h2>
         <h3 class="result-content__areas">
             <div v-if="selectedStore === 'store'">{{ totalProducts }} <span v-if="totalProducts > 1">Products</span><span v-else>Product</span></div>
-            <div v-else>{{ assetsShown[0]?.items?.length }} <span>{{ filteredAssetLabel }}</span><span v-if="assetsShown[0]?.items?.length > 1 || assetsShown[0]?.items?.length == 0">s</span></div> found
+            <div v-else>{{ assetsShown[1]?.total }} <span>{{ filteredAssetLabel }}</span><span v-if="assetsShown[1]?.total > 1 || assetsShown[1]?.total == 0">s</span></div> found
         </h3>
     </div>
 </template>

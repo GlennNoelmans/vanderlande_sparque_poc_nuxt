@@ -18,12 +18,12 @@ const price = Array.isArray(attributes.Price)
     productStore.setCurrentProduct(dataItem);
   };
 
-  const assetId = dataItem.tuple[0].attributes.AssetID;
+const itemSKU = dataItem.tuple[0].attributes.ItemSKU;
 
 </script>
 <template>
     <div class="product-card">
-        <NuxtLink :to="'/products/' + assetId" @click="setCurrentProduct()">
+        <NuxtLink :to="'/products/' + itemSKU" @click="setCurrentProduct()">
             <div class="product-card__image-container">
             <img :src="randomizeItemImage(22, 'item')" alt="product" class="product-card__image">
                 <div class="product-card__label-container">
@@ -35,7 +35,7 @@ const price = Array.isArray(attributes.Price)
             </div>
         </NuxtLink>
     
-        <p class="product-card__title"><NuxtLink :to="'/products/' + assetId" @click="setCurrentProduct()">{{ description }}</NuxtLink></p>
+        <p class="product-card__title"><NuxtLink :to="'/products/' + itemSKU" @click="setCurrentProduct()">{{ description }}</NuxtLink></p>
     
         <div class="product-card__part-number">Part number: {{ attributes.ItemSKU }}</div>
         <div class="product-card__delivery">Delivery in 4 days</div>
@@ -44,7 +44,7 @@ const price = Array.isArray(attributes.Price)
             <div class="product-card__footer__details-container">
             <div class="product-card__price-container"><p class="product-card__price-container__amount">{{ price }}</p><span class="product-card__price-container__each"> / Each</span></div>
             <div class="product-card__footer__details-link">
-                <NuxtLink :to="'/products/' + assetId" @click="setCurrentProduct()">
+                <NuxtLink :to="'/products/' + itemSKU" @click="setCurrentProduct()">
                     <Icon icon="ri:arrow-right-s-line" class="product-card__footer__details-link__icon"></Icon>
                     <p>View product details</p>
                 </NuxtLink>

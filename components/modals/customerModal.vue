@@ -22,8 +22,10 @@ const updateSelectedCustomer = () => {
 
 const selectCustomer = () => {
     productStore.setCurrentPage(1);
+    filterStore.setCurrentPage(1);
     productStore.setSearchKeyword(null);
-    filterStore.fetchStructure(currentCustomer.value.id, 2, 1);
+    filterStore.setFilteredAsset(null);
+    filterStore.fetchStructure(currentCustomer.value.id, 2, 1, 0);
     productStore.fetchAllProducts(currentCustomer.value.id, 0);
     runtimeConfig.public.SITE_ID = currentCustomer.value.id;
     customerStore.toggleShowModal(false);

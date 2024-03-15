@@ -1,5 +1,4 @@
 export const toggleActiveStructureAndFetchNewLevel = (tupleItem: any, activeArea: any, activeZone: any, activeAsset: any, filterStore: any, runtimeConfig: any) => {
-    console.log(tupleItem.attributes.systemDepthNumber);
     if (tupleItem.attributes.systemDepthNumber == 2) {    
         if (activeArea == tupleItem.attributes.MarkNumber) {
             filterStore.setActiveArea("");
@@ -29,8 +28,9 @@ export const toggleActiveStructureAndFetchNewLevel = (tupleItem: any, activeArea
         }
     }
     
-    filterStore?.fetchStructure(runtimeConfig.public.SITE_ID, tupleItem.attributes.AssetID, tupleItem.attributes.systemDepthNumber);
-    filterStore?.setFilteredAsset(tupleItem.attributes.MarkNumber);
+    filterStore?.fetchStructure(runtimeConfig.public.SITE_ID, tupleItem.attributes.AssetID, tupleItem.attributes.systemDepthNumber, 0);
+    filterStore?.setFilteredAsset(tupleItem);
     filterStore.setSelectedStore("base");
+    filterStore.setCurrentPage(1);
     setFilteredAssetLabel(tupleItem.attributes.MarkCode, filterStore);
 };

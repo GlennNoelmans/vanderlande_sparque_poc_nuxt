@@ -49,7 +49,7 @@ function isProductCard(assetUrl) {
                     </div>
                 </div>
             </div>
-            <productPagination/>
+            <hierarchyPagination/>
         </div>
     </div>
 </template>

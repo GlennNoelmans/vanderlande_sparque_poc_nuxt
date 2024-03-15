@@ -10,7 +10,7 @@ const { initialDataLoaded } = storeToRefs(productStore);
 
 if (!initialDataLoaded.value) {
     await Promise.all([
-        filterStore.fetchStructure(initialCustomerId, 2, 1),
+        filterStore.fetchStructure(initialCustomerId, 2, 1, 0),
         productStore.fetchAllProducts(initialCustomerId, 0),
         productStore.fetchAllProductCategories(initialCustomerId, "", 0),
     ]);

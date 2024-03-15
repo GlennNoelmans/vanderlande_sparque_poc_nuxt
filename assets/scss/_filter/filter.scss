@@ -44,3 +44,24 @@
     color: var(--primary-color);
   }
 }
+
+.category-container {
+  border-bottom: 1px;
+}
+
+.category-item {
+  display: flex;
+  margin-top: 1rem;
+  cursor: pointer;
+  
+  &__title {
+
+  }
+
+  &__amount {
+    margin-left: .5rem;
+    color: var(--primary-color);
+    font-family: var(--numberFont);
+    font-size: 14px;
+  }
+}

@@ -1,32 +1,32 @@
 <script setup>
 import { Icon } from '@iconify/vue/dist/iconify.js';
-import { useProductStore } from '~/stores/products';
 import { useCustomerStore } from '@/stores/customer';
+import { useFilterStore } from '~/stores/filter';
 
 const customerStore = useCustomerStore();
-const productStore = useProductStore();
+const filterStore = useFilterStore();
 const { currentCustomer } = storeToRefs(customerStore);
-const { productPage } = storeToRefs(productStore);
-const { searchKeyword } = storeToRefs(productStore);
-const { totalPages } = storeToRefs(productStore);
+const { hierarchyPage } = storeToRefs(filterStore);
+const { totalPages } = storeToRefs(filterStore);
+const { filteredAsset } = storeToRefs(filterStore);
 
 const setCurrentPage = (page) => {
     if (page < 1 || page > totalPages.value || page === '...') {
         return;
     }
-
-    productStore.setCurrentPage(page);
-    if (searchKeyword.value !== null) {
-        productStore.searchProducts(currentCustomer.value.id, searchKeyword.value, (productPage.value - 1) * 10);
+    filterStore?.setCurrentPage(page);
+    if (filteredAsset.value === null) {
+      filterStore?.fetchStructure(currentCustomer.value.id, 2, 1, (hierarchyPage?.value - 1) * 10);
     }
     else {
-        productStore.fetchAllProducts(currentCustomer.value.id, (productPage.value - 1) * 10);
+      filterStore?.fetchStructure(currentCustomer.value.id, filteredAsset?.value?.attributes?.AssetID, filteredAsset?.value?.attributes?.systemDepthNumber, (hierarchyPage?.value - 1) * 10);
     }
+    
 };
 
 const displayedPageNumbers = computed(() => {
   const pageCount = 5;
-  const currentPage = productPage.value;
+  const currentPage = hierarchyPage.value;
   const lastPage = totalPages.value;
   let startPage = Math.max(1, currentPage - Math.floor(pageCount / 2));
   let endPage = Math.min(lastPage, startPage + pageCount - 1);
@@ -55,17 +55,18 @@ const displayedPageNumbers = computed(() => {
 
   return pages;
 });
+
 </script>
 
 <template>
     <div class="product-pagination">
-    <div class="arrow-container" @click="setCurrentPage(productPage - 1)" :class="{ 'arrow-container__disabled': productPage === 1 }">
+    <div class="arrow-container" @click="setCurrentPage(hierarchyPage - 1)" :class="{ 'arrow-container__disabled': hierarchyPage === 1 }">
       <Icon icon="ri:arrow-left-s-line" class="arrow-container__icon"></Icon>
     </div>
     <div class="pages-container">
-        <span v-for="pageNumber in displayedPageNumbers" :key="pageNumber" class="pages-container__page-number" :class="{ 'pages-container__page-number__active': productPage === pageNumber }" @click="setCurrentPage(pageNumber)">{{ pageNumber }}</span>
+        <span v-for="pageNumber in displayedPageNumbers" :key="pageNumber" class="pages-container__page-number" :class="{ 'pages-container__page-number__active': hierarchyPage === pageNumber }" @click="setCurrentPage(pageNumber)">{{ pageNumber }}</span>
     </div>
-    <div class="arrow-container" @click="setCurrentPage(productPage + 1)" :class="{ 'arrow-container__disabled': productPage === totalPages }">
+    <div class="arrow-container" @click="setCurrentPage(hierarchyPage + 1)" :class="{ 'arrow-container__disabled': hierarchyPage === totalPages }">
       <Icon icon="ri:arrow-right-s-line" class="arrow-container__icon"></Icon>
     </div>
   </div>
