@@ -24,6 +24,9 @@ export const useProductStore = defineStore("products", {
     clearProducts() {
       this.products = [];
     },
+    clearCurrentProduct() {
+      this.currentProduct = [];
+    },
     clearProductCategories() {
       this.productCategories = [];
     },
@@ -142,6 +145,31 @@ export const useProductStore = defineStore("products", {
           }
         );
         this.products = data;
+        this.isProductLoaded = false;
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+        throw error;
+      }
+    },
+
+    async searchProductByMarkNumber(
+      site_id: number,
+      markNumber: string,
+      offset: string,
+    ) {
+      this.isProductLoaded = true;
+      this.clearCurrentProduct();
+      const runtimeConfig = useRuntimeConfig();
+      try {
+        const data = await $fetch(
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${markNumber}/results,count?config=default&count=10&offset=${offset}`,
+          {
+            headers: {
+              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
+            },
+          }
+        );
+        this.currentProduct = data;
         this.isProductLoaded = false;
       } catch (error: any) {
         console.error("Error fetching data:", error.message);

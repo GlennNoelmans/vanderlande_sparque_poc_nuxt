@@ -25,6 +25,7 @@ const selectCustomer = () => {
     filterStore.setCurrentPage(1);
     productStore.setSearchKeyword(null);
     filterStore.setFilteredAsset(null);
+    filterStore?.setFilteredMarkNumber("0000.00.000.000");
     filterStore.fetchStructure(currentCustomer.value.id, 2, 1, 0);
     productStore.fetchAllProducts(currentCustomer.value.id, 0);
     runtimeConfig.public.SITE_ID = currentCustomer.value.id;

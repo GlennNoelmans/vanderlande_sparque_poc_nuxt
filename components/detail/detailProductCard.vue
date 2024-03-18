@@ -9,47 +9,30 @@ const filterStore = useFilterStore();
 const props = defineProps(['dataItem']);
 const { dataItem } = props;
 
-var labelContent = "";
-var imageName = "";
-var maxImageCount = 0;
-if (dataItem.MarkCode == "AREA")  {
-    labelContent = dataItem.MarkCode;
-    imageName = labelContent;
-    maxImageCount = 6;
-}
-else if (dataItem.MarkCode == "ZONE") {
-    labelContent = dataItem.MarkCode;
-    imageName = labelContent;
-    maxImageCount = 5;
-}
-else {
-    labelContent = "ASSET"
-    imageName = 'item';
-    maxImageCount = 22;
-}
-
 </script>
 <template>
     <div class="hierarchy-card">
         <div class="product-card__image-container">
-                <img :src="randomizeItemImage(maxImageCount, imageName.toLowerCase())" alt="product" class="product-card__image">
+                <img :src="randomizeItemImage(22, 'item')" alt="product" class="product-card__image">
                     <div class="product-card__label-container">
                         <div class="product-card__label-container__content">
-                        {{ labelContent.toUpperCase() }}
+                            spareparts
                         </div>
                     </div>
-                </img>
+                </img> 
             </div>
         <p class="hierarchy-card__title">
-            {{ dataItem.Description[0] }}
+            {{ dataItem?.tuple[0].attributes.Description }} 
         </p>
-        <div class="hierarchy-card__mark-number">Mark-number: {{ dataItem.MarkNumber[0] }}</div>
-        <div class="hierarchy-card__mark-code">Mark-code: {{ dataItem.MarkCode[0] }}</div>
+        <div class="hierarchy-card__mark-number">Part-number: {{ dataItem?.tuple[0]?.attributes?.ItemSKU }}</div>
+        <div class="hierarchy-card__mark-code">Price: {{ dataItem?.tuple[0]?.attributes?.Price }}</div>
         <div class="hierarchy-card__footer">
+            <NuxtLink :to="'/products-in-base/' + dataItem?.tuple[0]?.attributes?.ItemSKU">
             <div class="hierarchy-card__footer__details-link">
                 <Icon icon="ri:arrow-right-s-line" class="hierarchy-card__footer__details-link__icon"></Icon>
                 <p>View location details</p>
             </div>
+            </NuxtLink>
         </div>
     </div>
 </template>

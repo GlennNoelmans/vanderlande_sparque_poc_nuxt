@@ -20,7 +20,7 @@ import { Icon } from '@iconify/vue/dist/iconify.js';
         <div class="container">
             <div class="nav-container">
                 <div class="nav-left-container">
-                    <img src="/vanderlande_icon.png" alt="vanderlande_icon" class="nav-logo">
+                    <NuxtLink to="/"><img src="/vanderlande_icon.png" alt="vanderlande_icon" class="nav-logo"></NuxtLink>
                     <ul class="nav-menu">
                         <li class="nav-menu__link">Home</li>
                         <li class="nav-menu__link">

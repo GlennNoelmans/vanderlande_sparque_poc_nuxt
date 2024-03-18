@@ -32,11 +32,13 @@ const search = () => {
                 <div class="search-container">
                     <input v-model="searchKeyword" type="text" class="search-container__input"
                         placeholder="Search by product name, item number or mark-number...">
-                    <button @click="search" class="search-container__button">
-                        <div class="search-container__button__inner-container">
-                            <Icon icon="fa:search" class="search-container__icon"></Icon>
-                        </div>
-                    </button>
+                    <NuxtLink to="/">
+                        <button @click="search" class="search-container__button">
+                            <div class="search-container__button__inner-container">
+                                <Icon icon="fa:search" class="search-container__icon"></Icon>
+                            </div>
+                        </button>
+                    </NuxtLink>
                 </div>
                 <div class="location-container">
                     <div class="location-inner-container">

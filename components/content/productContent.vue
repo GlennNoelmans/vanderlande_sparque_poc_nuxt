@@ -45,7 +45,7 @@ function isProductCard(assetUrl) {
                 <div class="hierarchy-card-container">
                     <div v-for="(dataItem, dataIndex) in assetsShown[0]?.items " :key="dataIndex" class="hierarchy-card-inner-container">   
                         <HierarchyCard v-if="!isProductCard(dataItem.tuple[0].class[0])" :dataItem="dataItem"/>
-                        <productCard v-else :dataItem="dataItem" /> 
+                        <productInBaseCard v-else :dataItem="dataItem" /> 
                     </div>
                 </div>
             </div>

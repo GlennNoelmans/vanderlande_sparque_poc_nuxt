@@ -2,17 +2,19 @@
 import { Icon } from "@iconify/vue/dist/iconify.js";
 import { useProductStore } from "~/stores/products";
 import { useFilterStore } from "~/stores/filter";
+import { useCustomerStore } from '@/stores/customer';
 
+const customerStore = useCustomerStore();
+const { currentCustomer } = storeToRefs(customerStore);
 const productStore = useProductStore();
 const filterStore = useFilterStore();
 const { currentProduct } = storeToRefs(productStore);
 const { childComponents } = storeToRefs(productStore);
 const { parentComponents } = storeToRefs(productStore);
 const { selectedComponentHeader } = storeToRefs(filterStore);
-const { assetId } = useRoute().params;
+const { itemSKU } = useRoute().params;
 
-// productStore.getChildComponentsOfProduct(currentCustomer?.value?.id, assetId.toString());
-// productStore.getParentComponentsOfProduct(currentCustomer?.value?.id, assetId.toString());
+productStore.searchProductByMarkNumber(currentCustomer.value.id, itemSKU, 0);
 </script>
 <template>
   <div>
@@ -36,11 +38,11 @@ const { assetId } = useRoute().params;
             <div class="product-main-image"></div>
             <div class="product-details-container">
               <h3 class="product-details-container__title">
-                {{ currentProduct?.tuple[0]?.attributes?.Description }}
+                {{ currentProduct[0]?.items[0]?.tuple[0]?.attributes.Description }}
               </h3>
               <p class="product-details-container__part-number">
                 Part number:
-                <span>{{ currentProduct?.tuple[0]?.attributes?.ItemSKU }}</span>
+                <span>{{ currentProduct[0]?.items[0]?.tuple[0]?.attributes.ItemSKU }}</span>
               </p>
               <button class="detail-content__link">
                 <NuxtLink to="/"
@@ -51,7 +53,7 @@ const { assetId } = useRoute().params;
               <div class="product-details-container__footer">
                 <div class="product-card__price-container">
                   <p class="product-card__price-container__amount">
-                    {{ currentProduct?.tuple[0]?.attributes?.Price }}
+                    {{ currentProduct[0]?.items[0]?.tuple[0]?.attributes.Price }}
                   </p>
                   <span class="product-card__price-container__each">
                     / Each</span
@@ -99,8 +101,8 @@ const { assetId } = useRoute().params;
           </div>
           </div>
           <div v-else class="parent-components-container">
-            <div v-for="(dataItem, dataIndex) in currentProduct?.tuple[0].attributes.AssetID" :key="dataIndex" class="parent-components-inner-container">
-              <detailHierarchyCard :dataItem="dataItem"/>
+            <div v-for="(dataItem, dataIndex) in currentProduct[0]?.items[0]?.tuple[0]?.attributes?.AssetID" :key="dataIndex" class="parent-components-inner-container">
+              <DetailHierarchyCardFromProduct :dataItem="dataItem"/>
             </div>
           </div>
         </div>

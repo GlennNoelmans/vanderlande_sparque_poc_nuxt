@@ -11,7 +11,11 @@ export const useFilterStore = defineStore("filter", {
     selectedComponentHeader: "location",
     filteredAsset: null as any,
     filteredAssetLabel: "Area" as string,
+    filteredMarkNumber: "0000.00.000.000" as string,
     hierarchyPage: 1 as number,
+    hierarchyAreaPage: 1 as number,
+    hierarchyZonePage: 1 as number,
+    hierarchyAssetPage: 1 as number,
     isHierarchyLoaded: false as Boolean,
   }),
   getters: {
@@ -47,11 +51,23 @@ export const useFilterStore = defineStore("filter", {
     setFilteredAssetLabel(label: string) {
       this.filteredAssetLabel = label;
     },
+    setFilteredMarkNumber(markNumber: string) {
+      this.filteredMarkNumber = markNumber;
+    },
     clearAssetsShown() {
       this.assetsShown = [];
     },
     setCurrentPage(page: number) {
       this.hierarchyPage = page;
+    },
+    setAreaPage(page: number) {
+      this.hierarchyAreaPage = page;
+    },
+    setZonePage(page: number) {
+      this.hierarchyZonePage = page;
+    },
+    setAssetPage(page: number) {
+      this.hierarchyAssetPage = page;
     },
     async fetchStructure(
       site_id: number,

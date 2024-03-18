@@ -19,5 +19,13 @@
 .page-content {
   display: flex;
   width: 100%;
+}
 
+.no-assets-found {
+  display: flex;
+  justify-items: baseline;
+
+  & span {
+    margin-left: .5rem;
+  }
 }

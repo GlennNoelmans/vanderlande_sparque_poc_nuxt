@@ -2,7 +2,7 @@ import { Customer } from '~/models/Customer';
 
 export const useCustomerStore = defineStore("customer", {
     state: () => ({
-      currentCustomer: [] as any,
+      currentCustomer: { "id": 2403540, "name": "Amazon BFL2 Shafter", "countryCode": "US" } as any,
       showModal: false,
     }),
     getters: {},

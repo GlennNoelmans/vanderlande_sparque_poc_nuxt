@@ -3,9 +3,11 @@ import { Icon } from '@iconify/vue/dist/iconify.js';
 import { randomizeItemImage } from '~/utils/ImageRandomizer';
 import { toggleActiveStructureAndFetchNewLevel } from '~/utils/AssetStructureOrganizer';
 import { useFilterStore } from '@/stores/filter';
+import { useCustomerStore } from '@/stores/customer';
 
+const customerStore = useCustomerStore();
+const { currentCustomer } = storeToRefs(customerStore);
 const filterStore = useFilterStore();
-const runtimeConfig = useRuntimeConfig();
 const { activeArea } = storeToRefs(filterStore);
 const { activeZone } = storeToRefs(filterStore);
 const { activeAsset } = storeToRefs(filterStore);
@@ -43,7 +45,7 @@ else {
 </script>
 <template>
     <div class="hierarchy-card">
-        <div class="product-card__image-container" @click="toggleActiveStructureAndFetchNewLevel(dataItem.tuple[0], activeArea, activeZone, activeAsset, filterStore, runtimeConfig)">
+        <div class="product-card__image-container" @click="toggleActiveStructureAndFetchNewLevel(dataItem.tuple[0], activeArea, activeZone, activeAsset, filterStore, currentCustomer.id)">
                 <img :src="randomizeItemImage(maxImageCount, imageName.toLowerCase())" alt="product" class="product-card__image">
                     <div class="product-card__label-container">
                         <div class="product-card__label-container__content">
@@ -52,17 +54,19 @@ else {
                     </div>
                 </img>
             </div>
-        <p class="hierarchy-card__title" @click="toggleActiveStructureAndFetchNewLevel(dataItem.tuple[0], activeArea, activeZone, activeAsset, filterStore, runtimeConfig)">
+        <p class="hierarchy-card__title" @click="toggleActiveStructureAndFetchNewLevel(dataItem.tuple[0], activeArea, activeZone, activeAsset, filterStore, currentCustomer.id)">
             {{ description }}
         </p>
         <div class="hierarchy-card__mark-number">Mark-number: {{ attributes.MarkNumber }}</div>
         <div class="hierarchy-card__mark-code">Mark-code: {{ attributes.MarkCode }}</div>
         <div class="hierarchy-card__footer">
-            <div class="hierarchy-card__footer__details-link" @click="toggleActiveStructureAndFetchNewLevel(dataItem.tuple[0], activeArea, activeZone, activeAsset, filterStore, runtimeConfig)">
-                <Icon icon="ri:arrow-right-s-line" class="hierarchy-card__footer__details-link__icon"></Icon>
-                <p>View location details</p>
-            </div>
-            <button class="hierarchy-card__footer__filter-button" @click="toggleActiveStructureAndFetchNewLevel(dataItem.tuple[0], activeArea, activeZone, activeAsset, filterStore, runtimeConfig)">
+            <NuxtLink :to="'/hierarchy/' + attributes.MarkNumber">
+                <div class="hierarchy-card__footer__details-link">
+                    <Icon icon="ri:arrow-right-s-line" class="hierarchy-card__footer__details-link__icon"></Icon>
+                    <p>View location details</p>
+                </div>
+            </NuxtLink>
+            <button class="hierarchy-card__footer__filter-button" @click="toggleActiveStructureAndFetchNewLevel(dataItem.tuple[0], activeArea, activeZone, activeAsset, filterStore, currentCustomer.id)">
                 Filter
             </button>
         </div>

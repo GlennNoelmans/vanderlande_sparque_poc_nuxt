@@ -1,23 +1,54 @@
 <script setup>
 import { useFilterStore } from "@/stores/filter";
+import { useCustomerStore } from '@/stores/customer';
 import { Icon } from "@iconify/vue/dist/iconify.js";
 import { toggleActiveStructureAndFetchNewLevel } from '~/utils/AssetStructureOrganizer';
 
+const customerStore = useCustomerStore();
+const { currentCustomer } = storeToRefs(customerStore);
 const filterStore = useFilterStore();
 const { zones } = storeToRefs(filterStore);
-const runtimeConfig = useRuntimeConfig();
 const { activeArea } = storeToRefs(filterStore);
 const { activeZone } = storeToRefs(filterStore);
 const { activeAsset } = storeToRefs(filterStore);
+const { hierarchyPage } = storeToRefs(filterStore);
+const { totalPages } = storeToRefs(filterStore);
+const { filteredAsset } = storeToRefs(filterStore);
+
+
+const fetchPreviousStructuresOnSameLevel = () => {
+  if (hierarchyPage.value === 1) {
+    return;
+  }
+  filterStore.setCurrentPage(hierarchyPage.value - 1);
+  filterStore?.fetchStructure(currentCustomer.value.id, filteredAsset?.value?.attributes?.AssetID, filteredAsset?.value?.attributes?.systemDepthNumber, (hierarchyPage?.value - 1) * 10);
+}
+
+const fetchNextStructuresOnSameLevel = () => {
+  if (hierarchyPage.value === totalPages) {
+    return;
+  }
+  filterStore.setCurrentPage(hierarchyPage.value + 1);
+  filterStore?.fetchStructure(currentCustomer.value.id, filteredAsset?.value?.attributes?.AssetID, filteredAsset?.value?.attributes?.systemDepthNumber, (hierarchyPage?.value - 1) * 10);
+}
+
+function isProduct(assetUrl) {
+    const assetClass = assetUrl.substring(assetUrl.lastIndexOf('/') + 1);
+    if (assetClass == 'Item') {
+        return true;
+    }
+    return false;
+}
 
 </script>
 <template>
+  <div v-if="hierarchyPage > 1" class="filter-action-btn" @click="fetchPreviousStructuresOnSameLevel">Show previous</div>
   <div v-for="(dataItem, dataIndex) in zones" :key="dataIndex">
     <div v-for="(item, itemIndex) in dataItem.items" :key="itemIndex">
       <div v-for="(tupleItem, tupleIndex) in item.tuple" :key="tupleIndex">
         <div
           class="product-filter"
-          @click="toggleActiveStructureAndFetchNewLevel(tupleItem, activeArea, activeZone, activeAsset, filterStore, runtimeConfig)"
+          @click="toggleActiveStructureAndFetchNewLevel(tupleItem, activeArea, activeZone, activeAsset, filterStore, currentCustomer.id)"
           :class="{
             'product-filter__active':
             activeZone === tupleItem.attributes.MarkNumber,
@@ -49,4 +80,5 @@ const { activeAsset } = storeToRefs(filterStore);
       </div>
     </div>
   </div>
+  <div v-if="hierarchyPage < totalPages" class="filter-action-btn" @click="fetchNextStructuresOnSameLevel">Show next</div>
 </template>

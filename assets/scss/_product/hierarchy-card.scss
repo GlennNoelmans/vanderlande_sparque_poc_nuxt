@@ -41,12 +41,20 @@
   &__footer {
     margin-top: 1rem;
 
+    & a {
+      text-decoration: none;
+    }
     &__details-link {
       display: flex;
       color: var(--primary-color);
       font-weight: 500;
       margin-bottom: 1rem;
       cursor: pointer;
+      font-size: 14px;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     &__filter-button {

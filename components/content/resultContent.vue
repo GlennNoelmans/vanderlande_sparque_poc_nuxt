@@ -8,6 +8,7 @@ const { filteredAsset } = storeToRefs(filterStore);
 const { assetsShown } = storeToRefs(filterStore);
 const { selectedStore } = storeToRefs(filterStore);
 const { filteredAssetLabel } = storeToRefs(filterStore);
+const { filteredMarkNumber } = storeToRefs(filterStore);
 const { searchKeyword } = storeToRefs(productStore);
 const { totalProducts } = storeToRefs(productStore);
 </script>
@@ -16,7 +17,7 @@ const { totalProducts } = storeToRefs(productStore);
         <h2 class="result-content__title">Results for: 
             <span class="result-content__title__result">
                 <span v-if="selectedStore === 'store'">"{{ searchKeyword }}"</span>
-                <span v-else>"{{ filteredAsset?.attributes?.MarkNumber }}"</span>
+                <span v-else>"{{ filteredMarkNumber }}"</span>
             </span>
         </h2>
         <h3 class="result-content__areas">

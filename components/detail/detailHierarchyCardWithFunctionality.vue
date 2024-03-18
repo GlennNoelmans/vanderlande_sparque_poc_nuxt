@@ -12,13 +12,13 @@ const { dataItem } = props;
 var labelContent = "";
 var imageName = "";
 var maxImageCount = 0;
-if (dataItem.MarkCode == "AREA")  {
-    labelContent = dataItem.MarkCode;
+if (dataItem?.tuple[0]?.attributes?.MarkCode == "AREA")  {
+    labelContent = dataItem?.tuple[0]?.attributes?.MarkCode;
     imageName = labelContent;
     maxImageCount = 6;
 }
-else if (dataItem.MarkCode == "ZONE") {
-    labelContent = dataItem.MarkCode;
+else if (dataItem?.tuple[0]?.attributes?.MarkCode == "ZONE") {
+    labelContent = dataItem?.tuple[0]?.attributes?.MarkCode;
     imageName = labelContent;
     maxImageCount = 5;
 }
@@ -38,18 +38,20 @@ else {
                         {{ labelContent.toUpperCase() }}
                         </div>
                     </div>
-                </img>
+                </img> 
             </div>
         <p class="hierarchy-card__title">
-            {{ dataItem.Description[0] }}
+            {{ dataItem?.tuple[0]?.attributes?.Description }} 
         </p>
-        <div class="hierarchy-card__mark-number">Mark-number: {{ dataItem.MarkNumber[0] }}</div>
-        <div class="hierarchy-card__mark-code">Mark-code: {{ dataItem.MarkCode[0] }}</div>
+        <div class="hierarchy-card__mark-number">Mark-number: {{ dataItem?.tuple[0]?.attributes?.MarkNumber }}</div>
+        <div class="hierarchy-card__mark-code">Mark-code: {{ dataItem?.tuple[0]?.attributes?.MarkCode }}</div>
         <div class="hierarchy-card__footer">
+            <NuxtLink :to="'/hierarchy/' + dataItem?.tuple[0]?.attributes?.MarkNumber">
             <div class="hierarchy-card__footer__details-link">
                 <Icon icon="ri:arrow-right-s-line" class="hierarchy-card__footer__details-link__icon"></Icon>
                 <p>View location details</p>
             </div>
+            </NuxtLink>
         </div>
     </div>
 </template>
