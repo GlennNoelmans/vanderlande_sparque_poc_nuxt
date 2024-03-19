@@ -10,6 +10,13 @@
   margin-bottom: 0.5rem;
 }
 
+.filter-component-container {
+  border-bottom: 1px solid #5A5B5D;;
+  padding-bottom: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
 .top-level {
   font-family: var(--numberFont);
   margin-bottom: 0.3rem;
@@ -27,7 +34,7 @@
   &__active {
     color: var(--primary-color);
     background-color: var(--secondary-color);
-    border-radius: 2px;
+    border-radius: 3px;
     border-left: 3px solid var(--primary-color);
     font-weight: 600;
   }
@@ -49,8 +56,9 @@
   &__active {
     color: var(--primary-color);
     background-color: var(--secondary-color);
-    border-radius: 2px;
+    border-radius: 3px;
     border-left: 3px solid var(--primary-color);
+    filter: drop-shadow(-3px 3px 2px rgba(0, 51, 161, .1));
     font-weight: 600;
   }
 
@@ -101,4 +109,69 @@
     cursor: pointer;
     text-decoration: underline;
   }
+}
+
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 4rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 16px;
+  
+}
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  border-radius: 2px;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+  background-color: var(--secondary-color);
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: var(--primary-color);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox-container .checkmark:after {
+  left: 6px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }

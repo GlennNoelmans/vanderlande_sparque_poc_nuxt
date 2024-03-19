@@ -14,7 +14,7 @@
         justify-content: center;
         border-top-left-radius: 2px;
         border-bottom-left-radius: 2px;
-        border-bottom: 2px solid #5A5B5D;
+        border-bottom: 1px solid #5A5B5D;
         padding-bottom: .3rem;
         padding-top: 1rem;
     }
@@ -26,7 +26,7 @@
         justify-content: center;
         border-top-right-radius: 2px;
         border-bottom-right-radius: 2px;
-        border-bottom: 2px solid #5A5B5D;
+        border-bottom: 1px solid #5A5B5D;
         padding-bottom: .3rem;
         padding-top: 1rem;
     }
@@ -35,7 +35,8 @@
         color: var(--primary-color);
         background-color: var(--secondary-color);
         border-radius: 2px;
-        border-bottom: 3px solid var(--primary-color);
+        border-bottom: 2px solid var(--primary-color);
         font-weight: 600;
+        filter: drop-shadow(-3px 3px 2px rgba(0, 51, 161, 0.16));
     }
 }

@@ -24,11 +24,17 @@ const maxImageCount = computed(() => {
   } else if (markCode.value === "ZONE") {
     return 5;
   }
+  else {
+    return 9;
+  }
 });
 
 const imageName = computed(() => {
   if (markCode.value === "AREA" || markCode.value === "ZONE") {
     return markCode.value;
+  }
+  else {
+    return "asset";
   }
 });
 

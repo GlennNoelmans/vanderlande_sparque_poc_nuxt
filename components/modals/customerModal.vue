@@ -57,9 +57,9 @@ const closeCustomerModal = () => {
                         <button class="customer-selection-container__button"  @click="selectCustomer()"> Select <Icon icon="ri:arrow-right-s-line" class="customer-selection-container__button__arrow"></Icon></button>
                     </div>
 
-                    <div v-if="currentCustomer">
+                    <div v-if="currentCustomer" class="customer-details-container">
                         <h2 class="customer-modal__header">Selected Customer Details</h2>
-                        <p>ID: {{ currentCustomer.id }}</p>
+                        <p class="customer-details-container__id">ID: {{ currentCustomer.id }}</p>
                         <p>Name: {{ currentCustomer.name }}</p>
                         <p>Country: {{ currentCustomer.countryCode }}</p>
                     </div>

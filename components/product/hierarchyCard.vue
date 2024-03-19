@@ -38,8 +38,8 @@ else if (attributes.MarkCode == "ZONE") {
 }
 else {
     labelContent = "ASSET"
-    imageName = 'item';
-    maxImageCount = 22;
+    imageName = 'asset';
+    maxImageCount = 9;
 }
 
 </script>

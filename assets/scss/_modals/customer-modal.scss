@@ -7,9 +7,10 @@
   align-items: center;
   justify-content: center;
   position: fixed;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, .5);
   top: 0;
   z-index: 1;
+  filter: drop-shadow(-3px 3px 2px rgba(0, 51, 161, 0.16));
 }
 
 .customer-modal-inner-container {
@@ -19,6 +20,7 @@
     justify-content: center;
     width: 100%;
     opacity: 10;
+    
 }
 
 .customer-modal {
@@ -28,6 +30,7 @@
   border-radius: 8px;
   position: relative;
   opacity: 1;
+  filter: drop-shadow(-3px 3px 2px rgba(0, 51, 161, .3));
 
   &__header {
     margin-bottom: 2rem;
@@ -80,5 +83,12 @@
     &__arrow {
       font-size: 20px;
     }
+  }
+}
+
+.customer-details-container {
+
+  &__id {
+    font-family: var(--numberFont);
   }
 }

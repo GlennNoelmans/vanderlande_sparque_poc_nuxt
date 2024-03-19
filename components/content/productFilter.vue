@@ -55,6 +55,20 @@ function isProduct(assetUrl) {
 <template>
     <div class="product-filter-container">
         <h2 class="filter-header">Filter by:</h2>
+        <div class="filter-component-container">
+            <label class="checkbox-container">In Your Selected Installed Base
+                <input type="checkbox" :checked="isProduct('')">
+                <span class="checkmark"></span>
+            </label>
+            <label class="checkbox-container">Spareparts
+                <input type="checkbox">
+                <span class="checkmark"></span>
+            </label>
+            <label class="checkbox-container">Location
+                <input type="checkbox">
+                <span class="checkmark"></span>
+            </label>
+        </div>
         <div v-if="selectedStore == 'base'">
             <h2 class="filter-header">Structure:</h2>
             <div @click="fetchTopStructure" class="top-level" :class="{ 'top-level__active': filteredMarkNumber === '0000.00.000.000'}">0000.00.000.000</div>
