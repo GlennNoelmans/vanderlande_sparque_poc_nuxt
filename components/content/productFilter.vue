@@ -36,7 +36,7 @@ const fetchPreviousStructuresOnSameLevel = () => {
     return;
   }
   filterStore.setCurrentPage(hierarchyPage.value - 1);
-  filterStore?.fetchStructure(currentCustomer.value.id, filteredAsset?.value?.attributes?.AssetID, filteredAsset?.value?.attributes?.systemDepthNumber, (hierarchyPage?.value - 1) * 10);
+  filterStore?.fetchStructure(currentCustomer.value.id, 2, 1, (hierarchyPage?.value - 1) * 10);
 }
 
 const fetchNextStructuresOnSameLevel = () => {
@@ -44,7 +44,7 @@ const fetchNextStructuresOnSameLevel = () => {
     return;
   }
   filterStore.setCurrentPage(hierarchyPage.value + 1);
-  filterStore?.fetchStructure(currentCustomer.value.id, filteredAsset?.value?.attributes?.AssetID, filteredAsset?.value?.attributes?.systemDepthNumber, (hierarchyPage?.value - 1) * 10);
+  filterStore?.fetchStructure(currentCustomer.value.id, 2, 1, (hierarchyPage?.value - 1) * 10);
 }
 
 const toggleActiveHeader = () => {
@@ -77,6 +77,12 @@ const toggleActiveHeader = () => {
         <div v-if="selectedStore == 'base'">
             <h2 class="filter-header">Structure:</h2>
             <div @click="fetchTopStructure" class="top-level" :class="{ 'top-level__active': filteredMarkNumber === '0000.00.000.000'}">0000.00.000.000</div>
+            <div v-if="filteredAsset === null">
+                <div v-if="hierarchyPage > 1" class="filter-action-btn" @click="fetchPreviousStructuresOnSameLevel">
+                    <Icon icon="ri:arrow-left-s-line" class="product-filter__arrow"></Icon>
+                    <span>Show previous</span>
+                </div>
+            </div>
             <div v-for="(dataItem, dataIndex) in areas" :key="dataIndex">
                 <div v-for="(item, itemIndex) in dataItem.items" :key="itemIndex">
                     <div v-for="(tupleItem, tupleIndex) in item.tuple" :key="tupleIndex">
@@ -96,7 +102,9 @@ const toggleActiveHeader = () => {
                     </div>
                 </div>
             </div>
-            <div v-if="hierarchyPage < totalPages" class="filter-action-btn" @click="fetchNextStructuresOnSameLevel">Show next</div>
+            <div v-if="filteredAsset === null">
+                <div v-if="hierarchyPage < totalPages" class="filter-action-btn" @click="fetchNextStructuresOnSameLevel"><span>Show next</span><Icon icon="ri:arrow-right-s-line" class="product-filter__arrow"></Icon></div>
+            </div>
         </div>
         <div v-else>
             <CategoryFilter />

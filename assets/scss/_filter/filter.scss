@@ -73,7 +73,6 @@
   &__assets-container {
     margin-left: 2rem;
     color: var(--primary-color);
-    border-left: 1px dashed #d6deec;
     margin-bottom: 1rem;
   }
 }
@@ -99,6 +98,8 @@
 }
 
 .filter-action-btn {
+  display: flex;
+  align-items: center;
   font-size: 14px;
   color: var(--primary-color);
   margin-top: .5rem;

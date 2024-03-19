@@ -5,6 +5,7 @@
   <div>
     <navigationHeader />
     <searchbarHeader />
+    <customerModal />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>

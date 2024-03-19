@@ -54,7 +54,10 @@ const closeCustomerModal = () => {
                                 {{ customer.id }} - {{ customer.name }}
                             </option>
                         </select>
-                        <button class="customer-selection-container__button"  @click="selectCustomer()"> Select <Icon icon="ri:arrow-right-s-line" class="customer-selection-container__button__arrow"></Icon></button>
+                        <NuxtLink :to="'/'" @click="selectCustomer()" class="customer-link">
+                            <button class="customer-selection-container__button" > <span class="customer-selection-container__button__text">Select</span><Icon icon="ri:arrow-right-s-line" class="customer-selection-container__button__arrow"></Icon></button>
+                        </NuxtLink>
+                        
                     </div>
 
                     <div v-if="currentCustomer" class="customer-details-container">

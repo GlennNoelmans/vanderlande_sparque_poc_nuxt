@@ -42,7 +42,12 @@ function isProduct(assetUrl) {
 
 </script>
 <template>
-  <div v-if="hierarchyPage > 1" class="filter-action-btn" @click="fetchPreviousStructuresOnSameLevel">Show previous</div>
+  <div v-if="filteredAsset.attributes.MarkCode === 'AREA'">
+    <div v-if="hierarchyPage > 1" class="filter-action-btn" @click="fetchPreviousStructuresOnSameLevel">
+      <Icon icon="ri:arrow-left-s-line" class="product-filter__arrow"></Icon>
+      <span>Show previous</span>
+    </div>
+  </div>
   <div v-for="(dataItem, dataIndex) in zones" :key="dataIndex">
     <div v-for="(item, itemIndex) in dataItem.items" :key="itemIndex">
       <div v-for="(tupleItem, tupleIndex) in item.tuple" :key="tupleIndex">
@@ -81,5 +86,10 @@ function isProduct(assetUrl) {
       </div>
     </div>
   </div>
-  <div v-if="hierarchyPage < totalPages" class="filter-action-btn" @click="fetchNextStructuresOnSameLevel">Show next</div>
+  <div v-if="filteredAsset.attributes.MarkCode === 'AREA'">
+    <div v-if="hierarchyPage < totalPages" class="filter-action-btn" @click="fetchNextStructuresOnSameLevel">
+      <span>Show next</span>
+      <Icon icon="ri:arrow-right-s-line" class="product-filter__arrow"></Icon>
+    </div>
+  </div>
 </template>

@@ -21,7 +21,6 @@ if (!initialDataLoaded.value) {
 <template>
     <div>
         <div class="horizontal-divider"></div>
-        <customerModal />
         <div class="page-content-container">
             <div class="container">
                 <div class="page-content">

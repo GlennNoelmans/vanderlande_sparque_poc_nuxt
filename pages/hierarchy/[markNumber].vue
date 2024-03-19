@@ -40,8 +40,6 @@ const imageName = computed(() => {
 
 function isProductCard(assetUrl) {
     const assetClass = assetUrl.substring(assetUrl.lastIndexOf('/') + 1);
-    console.log(assetUrl);
-    console.log(assetClass);
     if (assetClass == 'Item') {
         return true;
     }

@@ -55,6 +55,7 @@
   padding-bottom: 3rem;
   margin-bottom: 3rem;
   border-bottom: 1px solid #d2d3d5;
+  text-decoration: none;
 
   &__dropdown-container {
     border-radius: 8px;
@@ -75,6 +76,7 @@
     justify-content: center;
     align-items: center;
     border: 2px solid transparent;
+    text-decoration: none;
 
     &:hover {
       border-color:#000000;
@@ -83,7 +85,12 @@
     &__arrow {
       font-size: 20px;
     }
+
   }
+}
+
+.customer-link {
+  text-decoration: none;
 }
 
 .customer-details-container {

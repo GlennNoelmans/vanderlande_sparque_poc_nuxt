@@ -31,9 +31,22 @@ const fetchNextStructuresOnSameLevel = () => {
   filterStore.setCurrentPage(hierarchyPage.value + 1);
   filterStore?.fetchStructure(currentCustomer.value.id, filteredAsset?.value?.attributes?.AssetID, filteredAsset?.value?.attributes?.systemDepthNumber, (hierarchyPage?.value - 1) * 10);
 }
+
+function isProduct(assetUrl) {
+    const assetClass = assetUrl.substring(assetUrl.lastIndexOf('/') + 1);
+    if (assetClass == 'Item') {
+        return true;
+    }
+    return false;
+}
 </script>
 <template>
-  <div v-if="hierarchyPage > 1" class="filter-action-btn" @click="fetchPreviousStructuresOnSameLevel">Show previous</div>
+  <div v-if="filteredAsset.attributes.systemDepthNumber === '3'">
+    <div v-if="hierarchyPage > 1" class="filter-action-btn" @click="fetchPreviousStructuresOnSameLevel">
+      <Icon icon="ri:arrow-right-s-line" class="product-filter__arrow"></Icon>
+      <span>Show previous</span>
+    </div>
+  </div>
   <div v-for="(dataItem, dataIndex) in assets" :key="dataIndex">
     <div v-for="(item, itemIndex) in dataItem.items" :key="itemIndex">
       <div v-for="(tupleItem, tupleIndex) in item.tuple" :key="tupleIndex">
@@ -65,5 +78,10 @@ const fetchNextStructuresOnSameLevel = () => {
       </div>
     </div>
   </div>
-  <div v-if="hierarchyPage < totalPages" class="filter-action-btn" @click="fetchNextStructuresOnSameLevel">Show next</div>
+  <div v-if="filteredAsset.attributes.systemDepthNumber === '3'">
+    <div v-if="hierarchyPage < totalPages" class="filter-action-btn" @click="fetchNextStructuresOnSameLevel">
+      <span>Show next</span>
+      <Icon icon="ri:arrow-right-s-line" class="product-filter__arrow"></Icon>
+    </div>
+  </div>
 </template>
