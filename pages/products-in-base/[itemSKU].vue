@@ -29,13 +29,15 @@ productStore.searchProductByMarkNumber(currentCustomer.value.id, itemSKU, 0);
           </button>
           <div class="product-detail-container">
             <div class="product-gallery">
-              <div class="product-gallery__image">image</div>
-              <div class="product-gallery__image">image</div>
+              <div class="product-gallery__image"><img :src="randomizeItemImage(22, 'item')" alt="product_in_base" class="product-main-image__image"></img></div>
+              <div class="product-gallery__image"><img :src="randomizeItemImage(22, 'item')" alt="product_in_base" class="product-main-image__image"></img></div>
               <button class="product-gallery__next">
                 <Icon icon="ri:arrow-down-s-line"></Icon>
               </button>
             </div>
-            <div class="product-main-image"></div>
+            <div class="product-main-image">
+                <img :src="randomizeItemImage(22, 'item')" alt="product_in_base" class="product-main-image__image"></img>
+            </div>
             <div class="product-details-container">
               <h3 class="product-details-container__title">
                 {{ currentProduct[0]?.items[0]?.tuple[0]?.attributes.Description }}

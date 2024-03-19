@@ -46,7 +46,7 @@ function isProduct(assetUrl) {
   <div v-for="(dataItem, dataIndex) in zones" :key="dataIndex">
     <div v-for="(item, itemIndex) in dataItem.items" :key="itemIndex">
       <div v-for="(tupleItem, tupleIndex) in item.tuple" :key="tupleIndex">
-        <div
+        <div v-if="!isProduct(tupleItem.class[0])"
           class="product-filter"
           @click="toggleActiveStructureAndFetchNewLevel(tupleItem, activeArea, activeZone, activeAsset, filterStore, currentCustomer.id)"
           :class="{
@@ -75,7 +75,8 @@ function isProduct(assetUrl) {
           v-if="activeZone == tupleItem.attributes.MarkNumber"
           class="product-filter__assets-container"
         >
-          <assetList />
+          <div v-if="isProduct(tupleItem.class[0])"></div>
+          <assetList v-else/>
         </div>
       </div>
     </div>

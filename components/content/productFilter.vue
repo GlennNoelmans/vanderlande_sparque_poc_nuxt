@@ -22,6 +22,7 @@ const fetchTopStructure = () => {
     filterStore?.setCurrentPage(1);
     filterStore?.fetchStructure(currentCustomer.value.id, 2, 1, 0);
     filterStore?.setFilteredMarkNumber("0000.00.000.000");
+    filterStore?.setFilteredAsset(null);
     filterStore.setActiveArea("");
     filterStore.setActiveZone("");
     filterStore.setActiveAsset("");
@@ -41,6 +42,14 @@ const fetchNextStructuresOnSameLevel = () => {
   }
   filterStore.setCurrentPage(hierarchyPage.value + 1);
   filterStore?.fetchStructure(currentCustomer.value.id, filteredAsset?.value?.attributes?.AssetID, filteredAsset?.value?.attributes?.systemDepthNumber, (hierarchyPage?.value - 1) * 10);
+}
+
+function isProduct(assetUrl) {
+    const assetClass = assetUrl.substring(assetUrl.lastIndexOf('/') + 1);
+    if (assetClass == 'Item') {
+        return true;
+    }
+    return false;
 }
 </script>
 <template>
@@ -63,7 +72,7 @@ const fetchNextStructuresOnSameLevel = () => {
                             <span class="product-filter__mark-number">{{ tupleItem.attributes.MarkNumber }}</span>
                         </div>
                         <div v-if="activeArea == tupleItem.attributes.MarkNumber" class="product-filter__assets-container">
-                            <zoneList />
+                            <zoneList />                            
                         </div>
                     </div>
                 </div>

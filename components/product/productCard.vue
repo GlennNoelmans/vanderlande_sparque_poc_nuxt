@@ -25,13 +25,13 @@ const itemSKU = dataItem.tuple[0].attributes.ItemSKU;
     <div class="product-card">
         <NuxtLink :to="'/products/' + itemSKU" @click="setCurrentProduct()">
             <div class="product-card__image-container">
-            <img :src="randomizeItemImage(22, 'item')" alt="product" class="product-card__image">
-                <div class="product-card__label-container">
-                    <div class="product-card__label-container__content">
-                    Sparepart
-                </div>
-                </div>
-            </img>
+                <img :src="randomizeItemImage(22, 'item')" alt="product" class="product-card__image">
+                    <div class="product-card__label-container">
+                        <div class="product-card__label-container__content">
+                        Sparepart
+                    </div>
+                    </div>
+                </img>
             </div>
         </NuxtLink>
     
