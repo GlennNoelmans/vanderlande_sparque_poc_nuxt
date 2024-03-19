@@ -6,12 +6,12 @@
 }
 
 .horizontal-divider {
-    height: 4rem;
+  height: 4rem;
 }
 
 .vertical-line-divider {
   width: 1px;
-  background-color: #8FA5D5;
+  background-color: #8fa5d5;
   margin-right: 4rem;
   margin-left: 2rem;
 }
@@ -24,8 +24,12 @@
 .no-assets-found {
   display: flex;
   justify-items: baseline;
+  width: 100%;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 4rem;
 
   & span {
-    margin-left: .5rem;
+    margin-left: 0.5rem;
   }
 }

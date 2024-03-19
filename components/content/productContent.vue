@@ -30,6 +30,10 @@ function isProductCard(assetUrl) {
             <div v-if="isProductLoaded" class="loading-container">
                 <Icon icon="eos-icons:loading" class="loading-container__icon"></Icon>
             </div>
+            <div v-if="products[0]?.items?.length === 0" class="no-assets-found">
+                <Icon icon="nonicons:not-found-16"></Icon>
+                <span>No results found</span>
+            </div>
             <div class="product-card-container">
                 <div v-for="(dataItem, dataIndex) in products[0]?.items" :key="dataIndex" class="product-card-inner-container">
                     <productCard :dataItem="dataItem"/>
@@ -40,6 +44,10 @@ function isProductCard(assetUrl) {
         <div v-if="selectedStore === 'base'" >
             <div v-if="isHierarchyLoaded" class="loading-container">
                 <Icon icon="eos-icons:loading" class="loading-container__icon"></Icon>
+            </div>
+            <div v-if="assetsShown[0]?.items?.length === 0" class="no-assets-found">
+                <Icon icon="nonicons:not-found-16"></Icon>
+                <span>No results found</span>
             </div>
             <div class="hierarchy-card-container">
                 <div class="hierarchy-card-container">

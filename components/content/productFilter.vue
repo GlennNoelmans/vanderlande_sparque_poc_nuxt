@@ -1,5 +1,6 @@
 <script setup>
 import { useFilterStore } from '@/stores/filter';
+import { useProductStore } from '@/stores/products';
 import { useCustomerStore } from '@/stores/customer';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import zoneList from './zoneList.vue';
@@ -8,6 +9,7 @@ import { toggleActiveStructureAndFetchNewLevel } from '~/utils/AssetStructureOrg
 const customerStore = useCustomerStore();
 const { currentCustomer } = storeToRefs(customerStore);
 const filterStore = useFilterStore();
+const productStore = useProductStore();
 const { areas } = storeToRefs(filterStore);
 const { activeArea } = storeToRefs(filterStore);
 const { activeZone } = storeToRefs(filterStore);
@@ -17,6 +19,7 @@ const { filteredMarkNumber } = storeToRefs(filterStore);
 const { hierarchyPage } = storeToRefs(filterStore);
 const { totalPages } = storeToRefs(filterStore);
 const { filteredAsset } = storeToRefs(filterStore);
+const { totalProducts } = storeToRefs(productStore);
 
 const fetchTopStructure = () => {
     filterStore?.setCurrentPage(1);
@@ -44,23 +47,25 @@ const fetchNextStructuresOnSameLevel = () => {
   filterStore?.fetchStructure(currentCustomer.value.id, filteredAsset?.value?.attributes?.AssetID, filteredAsset?.value?.attributes?.systemDepthNumber, (hierarchyPage?.value - 1) * 10);
 }
 
-function isProduct(assetUrl) {
-    const assetClass = assetUrl.substring(assetUrl.lastIndexOf('/') + 1);
-    if (assetClass == 'Item') {
-        return true;
+const toggleActiveHeader = () => {
+    if (selectedStore.value === 'base') {
+        filterStore.setSelectedStore('store');
+        return;
     }
-    return false;
-}
+    filterStore.setSelectedStore('base');
+};
 </script>
 <template>
     <div class="product-filter-container">
         <h2 class="filter-header">Filter by:</h2>
         <div class="filter-component-container">
-            <label class="checkbox-container">In Your Selected Installed Base
-                <input type="checkbox" :checked="isProduct('')">
+            <label class="checkbox-container" >In Your Selected Installed Base
+                <input type="checkbox" :checked="selectedStore === 'base'" @change="toggleActiveHeader">
                 <span class="checkmark"></span>
             </label>
-            <label class="checkbox-container">Spareparts
+            <label class="checkbox-container">Spareparts 
+                <span v-if="selectedStore === 'store'" class="checkbox-container__part-amount">({{ totalProducts }})</span>
+                <span v-else class="checkbox-container__part-amount">(0)</span>
                 <input type="checkbox">
                 <span class="checkmark"></span>
             </label>

@@ -124,6 +124,13 @@
   -ms-user-select: none;
   user-select: none;
   font-size: 16px;
+
+  &__part-amount {
+    font-family: var(--numberFont);
+    font-size: 12px;
+    color: var(--primary-color);
+    margin-left: .5rem;
+  }
   
 }
 
