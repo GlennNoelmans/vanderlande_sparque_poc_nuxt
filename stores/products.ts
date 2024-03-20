@@ -152,7 +152,7 @@ export const useProductStore = defineStore("products", {
       }
     },
 
-    async searchProductByMarkNumber(
+    async searchCurrentProductByMarkNumber(
       site_id: number,
       markNumber: string,
       offset: string,

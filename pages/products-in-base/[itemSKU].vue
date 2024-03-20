@@ -14,7 +14,7 @@ const { parentComponents } = storeToRefs(productStore);
 const { selectedComponentHeader } = storeToRefs(filterStore);
 const { itemSKU } = useRoute().params;
 
-productStore.searchProductByMarkNumber(currentCustomer.value.id, itemSKU, 0);
+productStore.searchCurrentProductByMarkNumber(currentCustomer.value.id, itemSKU, 0);
 </script>
 <template>
   <div>

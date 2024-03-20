@@ -21,6 +21,8 @@ function isProductCard(assetUrl) {
     }
     return false;
 }
+
+//getData 
 </script>
 <template>
     <div class="product-content-container">
@@ -37,7 +39,6 @@ function isProductCard(assetUrl) {
             <div class="product-card-container">
                 <div v-for="(dataItem, dataIndex) in products[0]?.items" :key="dataIndex" class="product-card-inner-container">
                     <productCard v-if="isProductCard(dataItem.tuple[0].class[0])" :dataItem="dataItem"/>
-                    <HierarchyCardInDirectory v-else :dataItem="dataItem"/>
                 </div>
             </div>
             <productPagination/>

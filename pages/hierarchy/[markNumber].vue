@@ -35,11 +35,8 @@ const imageName = computed(() => {
   if (markCode.value === "AREA" || markCode.value === "ZONE") {
     return markCode.value;
   }
-  if (assetClass[0]?.includes('Asset') && markCode.value !== "AREA" && markCode.value !== "ZONE") {
-    return 'asset';
-  }
   else {
-    return undefined;
+    return 'asset';
   }
 });
 
@@ -55,7 +52,7 @@ function isProductCard(assetUrl) {
 onMounted(async () => {
   try {
     await Promise.all([
-      productStore.searchProductByMarkNumber(runtimeConfig.public.SITE_ID, markNumber, 0)
+      productStore.searchCurrentProductByMarkNumber(runtimeConfig.public.SITE_ID, markNumber, 0)
     ]);
 
     const assetId = currentProduct.value[0]?.items[0]?.tuple[0]?.attributes?.AssetID;
