@@ -86,7 +86,7 @@ export const useProductStore = defineStore("products", {
       try {
         
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/results,count?config=default`,
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/results,count?config=default&count=1000`,
           {
             headers: {
               Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
