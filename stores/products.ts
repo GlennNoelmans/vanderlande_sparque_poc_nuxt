@@ -10,7 +10,7 @@ export const useProductStore = defineStore("products", {
     searchKeyword: null as null | string,
     categoryFilter: null as null | string,
     initialDataLoaded: false as boolean,
-    isProductLoaded: false as boolean,
+    isProductLoading: false as boolean,
   }),
   getters: {
     totalProducts(state): number {
@@ -58,7 +58,7 @@ export const useProductStore = defineStore("products", {
       site_id: number,
       offset: number | string,
     ) {
-      this.isProductLoaded = true;
+      this.isProductLoading = true;
       this.clearProducts();
       const runtimeConfig = useRuntimeConfig();
       try {
@@ -71,7 +71,7 @@ export const useProductStore = defineStore("products", {
           }
         );
         this.products = data;
-        this.isProductLoaded = false;
+        this.isProductLoading = false;
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
         throw error;
@@ -107,7 +107,7 @@ export const useProductStore = defineStore("products", {
       filter: string,
       offset: string,
     ) {
-      this.isProductLoaded = true;
+      this.isProductLoading = true;
       this.clearProducts();
       const runtimeConfig = useRuntimeConfig();
       try {
@@ -120,7 +120,7 @@ export const useProductStore = defineStore("products", {
           }
         );
         this.products = data;
-        this.isProductLoaded = false;
+        this.isProductLoading = false;
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
         throw error;
@@ -132,7 +132,7 @@ export const useProductStore = defineStore("products", {
       keyword: string,
       offset: string,
     ) {
-      this.isProductLoaded = true;
+      this.isProductLoading = true;
       this.clearProducts();
       const runtimeConfig = useRuntimeConfig();
       try {
@@ -145,7 +145,7 @@ export const useProductStore = defineStore("products", {
           }
         );
         this.products = data;
-        this.isProductLoaded = false;
+        this.isProductLoading = false;
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
         throw error;
@@ -157,8 +157,8 @@ export const useProductStore = defineStore("products", {
       markNumber: string,
       offset: string,
     ) {
-      this.isProductLoaded = true;
       this.clearCurrentProduct();
+      this.isProductLoading = true;
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
@@ -170,7 +170,7 @@ export const useProductStore = defineStore("products", {
           }
         );
         this.currentProduct = data;
-        this.isProductLoaded = false;
+        this.isProductLoading = false;
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
         throw error;

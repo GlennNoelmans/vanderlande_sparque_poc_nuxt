@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 import { useProductStore } from '@/stores/products';
 import { useCustomerStore } from '@/stores/customer';
 
@@ -32,4 +32,4 @@ function onCategoryClick (categoryFilter) {
       </label>
     </div>
   </div>
-</template>
+</template> -->

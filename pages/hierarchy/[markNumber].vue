@@ -11,12 +11,14 @@ const filterStore = useFilterStore();
 const { currentProduct } = storeToRefs(productStore);
 const { childComponents } = storeToRefs(productStore);
 const { parentComponents } = storeToRefs(productStore);
+const { isProductLoading } = storeToRefs(productStore);
 const { selectedComponentHeader } = storeToRefs(filterStore);
 const { isImageLoaded } = storeToRefs(filterStore);
 const runtimeConfig = useRuntimeConfig();
 const { markNumber } = useRoute().params;
 
 const markCode = computed(() => currentProduct.value[0]?.items[0]?.tuple[0]?.attributes?.MarkCode);
+const assetClass = computed(() => currentProduct.value[0]?.items[0]?.tuple[0]?.class);
 
 const maxImageCount = computed(() => {
   if (markCode.value === "AREA") {
@@ -33,8 +35,11 @@ const imageName = computed(() => {
   if (markCode.value === "AREA" || markCode.value === "ZONE") {
     return markCode.value;
   }
+  if (assetClass[0]?.includes('Asset') && markCode.value !== "AREA" && markCode.value !== "ZONE") {
+    return 'asset';
+  }
   else {
-    return "asset";
+    return undefined;
   }
 });
 
@@ -45,6 +50,7 @@ function isProductCard(assetUrl) {
     }
     return false;
 }
+
 
 onMounted(async () => {
   try {
@@ -64,6 +70,9 @@ onMounted(async () => {
     }
   } catch (error) {
     console.error('Error:', error);
+  }
+  finally {
+
   }
 });
 </script>

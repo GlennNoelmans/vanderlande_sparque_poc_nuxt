@@ -12,10 +12,7 @@ const { productPage } = storeToRefs(productStore);
 const onCategoryClick = (categoryFilter) => {
   productStore.setCurrentPage(1);
   productStore.setCategoryFilter(categoryFilter);
-  let searchString = searchKeyword.value;
-  if ( searchString === null) {
-    searchString = "";
-  }
+  let searchString = searchKeyword.value || "";
   productStore.fetchProductsFilteredByCategory(currentCustomer.value.id, searchString, categoryFilter, (productPage.value - 1) * 10);
 }
 
