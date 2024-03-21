@@ -14,10 +14,10 @@ const { totalProducts } = storeToRefs(productStore);
 </script>
 <template>
     <div class="result-content">
-        <h2 class="result-content__title">Results for: 
+        <h2 class="result-content__title">
             <span class="result-content__title__result">
-                <span v-if="selectedStore === 'store'">"{{ searchKeyword }}"</span>
-                <span v-else>"{{ filteredMarkNumber }}"</span>
+                <span v-if="selectedStore === 'store'" class="result-content__title__result__text">Items in your directory</span>
+                <div v-else><span class="result-content__title__result__text">Results for:</span><span> "{{ filteredMarkNumber }}"</span></div>
             </span>
         </h2>
         <h3 class="result-content__areas">

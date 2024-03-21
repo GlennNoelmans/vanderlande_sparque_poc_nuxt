@@ -8,7 +8,6 @@ const customerStore = useCustomerStore();
 const productStore = useProductStore();
 const filterStore = useFilterStore();
 const { currentCustomer } = storeToRefs(customerStore);
-const { selectedStore } = storeToRefs(filterStore);
 const searchKeyword = ref('');
 
 const openCustomerModal = () => {
@@ -16,18 +15,13 @@ const openCustomerModal = () => {
 };
 
 const search = () => {
-    if (selectedStore.value === 'store') {
-        productStore.searchProducts(currentCustomer.value.id, searchKeyword.value, 0);
-    }
-    else if (selectedStore.value === 'base') {
-        productStore.searchProductsInBase(currentCustomer.value.id, searchKeyword.value, 0);
-    }
     productStore.searchProducts(currentCustomer.value.id, searchKeyword.value, 0);
-    productStore.fetchAllProductCategories(currentCustomer.value.id, searchKeyword.value),
-    productStore.setCurrentPage(1);
-    productStore.setCategoryFilter(null);
+    productStore.fetchAllSearchedProductCategories(currentCustomer.value.id, searchKeyword.value),
+    productStore.setProductSearchPage(1);
+    productStore.clearCategorySearchFilter();
     productStore.setSearchKeyword(searchKeyword.value);
     productStore.setIsSearchActive(true);
+    productStore.setIsSearchCategoryFilterActive(false);
 }
 </script>
 
@@ -38,13 +32,13 @@ const search = () => {
                 <div class="search-container">
                     <input v-model="searchKeyword" type="text" class="search-container__input"
                         placeholder="Search by product name, item number or mark-number...">
-                    <NuxtLink to="/">
-                        <button @click="search" class="search-container__button">
-                            <div class="search-container__button__inner-container">
-                                <Icon icon="fa:search" class="search-container__icon"></Icon>
-                            </div>
-                        </button>
-                    </NuxtLink>
+                        <NuxtLink to="/search/results">
+                            <button @click="search" class="search-container__button">
+                                <div class="search-container__button__inner-container">
+                                    <Icon icon="fa:search" class="search-container__icon"></Icon>
+                                </div>
+                            </button>
+                        </NuxtLink>
                 </div>
                 <div class="location-container">
                     <div class="location-inner-container">

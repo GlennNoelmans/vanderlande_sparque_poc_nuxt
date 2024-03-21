@@ -16,6 +16,7 @@ const { assetId } = useRoute().params;
 </script>
 <template>
   <div>
+    <div class="horizontal-divider"></div>
     <div class="detail-content-container">
       <div class="container">
         <div class="detail-content">

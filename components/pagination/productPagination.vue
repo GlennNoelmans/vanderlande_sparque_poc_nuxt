@@ -17,17 +17,8 @@ const setCurrentPage = (page) => {
     }
     productStore.setCurrentPage(page);
     const offset = (productPage.value - 1) * 10; 
-    if (searchKeyword.value !== null) {
-        if (categoryFilter.value === null) {
-          productStore.searchProducts(currentCustomer.value.id, searchKeyword.value, offset);
-        }
-        else {
-          productStore.fetchProductsFilteredByCategory(currentCustomer.value.id, searchKeyword.value, categoryFilter.value, (productPage.value - 1) * 10);
-        }
-    }
-    else {
-        productStore.fetchAllProducts(currentCustomer.value.id, offset);
-    }
+    productStore.fetchAllProducts(currentCustomer.value.id, offset);
+
 };
 
 const displayedPageNumbers = computed(() => {

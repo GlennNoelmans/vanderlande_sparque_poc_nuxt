@@ -5,10 +5,16 @@ export const useProductStore = defineStore("products", {
     currentProduct: [] as any,
     childComponents: [] as any,
     parentComponents: [] as any,
+    searchedProducts: [] as any,
+    searchedProductsCategories: [] as any,
     productPage: 1 as number,
+    productSearchPage: 1 as number,
     isSearchActive: false as boolean,
     searchKeyword: null as null | string,
-    categoryFilter: null as null | string,
+    categoryFilter: "" as null | string,
+    categorySearchFilter: "" as string,
+    isCategoryFilterActive: false as boolean,
+    isSearchCategoryFilterActive: false as boolean,
     initialDataLoaded: false as boolean,
     isProductLoading: false as boolean,
   }),
@@ -18,6 +24,12 @@ export const useProductStore = defineStore("products", {
     },
     totalPages(): number {
       return Math.ceil(this.totalProducts / 10);
+    },
+    totalSearchedProducts(state): number {
+      return state?.searchedProducts[1]?.total;
+    },
+    totalSearchedPages(): number {
+      return Math.ceil(this.totalSearchedProducts / 10);
     },
   },
   actions: {
@@ -42,22 +54,47 @@ export const useProductStore = defineStore("products", {
     setCurrentPage(page: number) {
       this.productPage = page;
     },
+    setProductSearchPage(page: number) {
+      this.productSearchPage = page;
+    },
     setIsSearchActive(isActive: boolean) {
       this.isSearchActive = isActive;
+    },
+    setIsCategoryFilterActive(isActive: boolean) {
+      this.isCategoryFilterActive = isActive;
+    },
+    setIsSearchCategoryFilterActive(isActive: boolean) {
+      this.isSearchCategoryFilterActive = isActive;
     },
     setSearchKeyword(keyword: string) {
       this.searchKeyword = keyword;
     },
     setCategoryFilter(filter: string) {
-      this.categoryFilter = filter;
+      this.categoryFilter = this.categoryFilter + "," + filter;
+    },
+    setCategorySearchFilter(filter: string) {
+      const filters = this.categorySearchFilter.split(",");
+      const index = filters.indexOf(filter);
+      if (index === -1) {
+        filters.push(filter);
+      } else {
+        filters.splice(index, 1);
+      }
+      this.categorySearchFilter = filters.join(",");
     },
     setInitialDataLoaded(isLoaded: boolean) {
       this.initialDataLoaded = isLoaded;
     },
-    async fetchAllProducts(
-      site_id: number,
-      offset: number | string,
-    ) {
+    clearSearchedProducts() {
+      this.searchedProducts = [];
+    },
+    clearSearchedProductsCategories() {
+      this.searchedProductsCategories = [];
+    },
+    clearCategorySearchFilter() {
+      this.categorySearchFilter = "";
+    },
+    async fetchAllProducts(site_id: number, offset: number | string) {
       this.isProductLoading = true;
       this.clearProducts();
       const runtimeConfig = useRuntimeConfig();
@@ -77,14 +114,10 @@ export const useProductStore = defineStore("products", {
         throw error;
       }
     },
-    async fetchAllProductCategories(
-      site_id: number,
-      keyword: string,
-    ) {
+    async fetchAllProductCategories(site_id: number, keyword: string) {
       this.clearProductCategories();
       const runtimeConfig = useRuntimeConfig();
       try {
-        
         const data = await $fetch(
           `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/results,count?config=default&count=1000`,
           {
@@ -94,7 +127,6 @@ export const useProductStore = defineStore("products", {
           }
         );
         this.productCategories = data;
-        
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
         throw error;
@@ -105,7 +137,7 @@ export const useProductStore = defineStore("products", {
       site_id: number,
       keyword: string,
       filter: string,
-      offset: string,
+      offset: string
     ) {
       this.isProductLoading = true;
       this.clearProducts();
@@ -127,13 +159,9 @@ export const useProductStore = defineStore("products", {
       }
     },
 
-    async searchProducts(
-      site_id: number,
-      keyword: string,
-      offset: string,
-    ) {
+    async searchProducts(site_id: number, keyword: string, offset: string) {
       this.isProductLoading = true;
-      this.clearProducts();
+      this.clearSearchedProducts();
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
@@ -144,7 +172,52 @@ export const useProductStore = defineStore("products", {
             },
           }
         );
-        this.products = data;
+        this.searchedProducts = data;
+        this.isProductLoading = false;
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+        throw error;
+      }
+    },
+    async fetchAllSearchedProductCategories(site_id: number, keyword: string) {
+      this.clearSearchedProductsCategories();
+      const runtimeConfig = useRuntimeConfig();
+      try {
+        const data = await $fetch(
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/results,count?config=default&count=1000`,
+          {
+            headers: {
+              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
+            },
+          }
+        );
+        const reworkedCategoryData = reworkCategoryData(data);
+        this.searchedProductsCategories = reworkedCategoryData;
+        console.log(reworkedCategoryData);
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+        throw error;
+      }
+    },
+    async fetchSearchedProductsFilteredByCategory(
+      site_id: number,
+      keyword: string,
+      filter: string,
+      offset: string
+    ) {
+      this.isProductLoading = true;
+      this.clearSearchedProducts();
+      const runtimeConfig = useRuntimeConfig();
+      try {
+        const data = await $fetch(
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/p/filter/${filter}/results,count?config=default&count=10&offset=${offset}`,
+          {
+            headers: {
+              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
+            },
+          }
+        );
+        this.searchedProducts = data;
         this.isProductLoading = false;
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
@@ -155,7 +228,7 @@ export const useProductStore = defineStore("products", {
     async searchCurrentProductByMarkNumber(
       site_id: number,
       markNumber: string,
-      offset: string,
+      offset: string
     ) {
       this.clearCurrentProduct();
       this.isProductLoading = true;
@@ -179,7 +252,7 @@ export const useProductStore = defineStore("products", {
 
     async getChildComponentsOfProduct(
       site_id: number,
-      keyword: string | number,
+      keyword: string | number
     ) {
       this.clearChildComponents();
       const runtimeConfig = useRuntimeConfig();
@@ -194,17 +267,13 @@ export const useProductStore = defineStore("products", {
           }
         );
         this.childComponents = data;
-        
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
         throw error;
       }
     },
 
-    async getParentComponentsOfProduct(
-      site_id: number,
-      keyword: string,
-    ) {
+    async getParentComponentsOfProduct(site_id: number, keyword: string) {
       this.clearParentComponents();
       const runtimeConfig = useRuntimeConfig();
 
@@ -218,7 +287,6 @@ export const useProductStore = defineStore("products", {
           }
         );
         this.parentComponents = data;
-        
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
         throw error;
@@ -226,3 +294,63 @@ export const useProductStore = defineStore("products", {
     },
   },
 });
+
+function reworkCategoryData(data: any) {
+  const reworkedData = [];
+
+  for (const item of data[0].items) {
+    const item_id = item.tuple[0].id;
+    const item_identifier = item.tuple[0].attributes.identifier[0];
+    const item_root = parseInt(item.tuple[0].attributes.Root[0]);
+    const item_probability = item.probability;
+
+    if (item_root === 1) {
+      reworkedData.push({
+        id: item_id,
+        identifier: item_identifier,
+        probability: item_probability,
+        children: processTuple(data[0].items, 0, data, item_identifier),
+      });
+    }
+  }
+
+  return reworkedData;
+}
+
+function processTuple(
+  tupleData: any,
+  level: any,
+  data: any,
+  parentIdentifier: string
+) {
+  const children = [];
+  for (const item of tupleData) {
+    const item_id = item.tuple[0].id;
+    const item_identifier = item.tuple[0].attributes.identifier[0];
+    const item_root = parseInt(item.tuple[0].attributes.Root[0]);
+    const item_probability = item.probability;
+
+    if (item_root === level && item_identifier.includes(parentIdentifier)) {
+      children.push({
+        id: item_id,
+        identifier: item_identifier,
+        probability: item_probability,
+        children: [],
+      });
+    }
+  }
+
+  for (const child of children as any) {
+    const parentIdentifierForChildren = child.identifier;
+    child.children = processTuple(
+      data[0].items.filter(
+        (item: any) => parseInt(item.tuple[0].attributes.Root[0]) === level - 1
+      ),
+      level - 1,
+      data,
+      parentIdentifierForChildren
+    );
+  }
+
+  return children;
+}

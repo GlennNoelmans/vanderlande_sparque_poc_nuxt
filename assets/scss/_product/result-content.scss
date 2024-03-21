@@ -1,5 +1,6 @@
 .result-content {
     color: black;
+    margin-bottom: 3rem;
 
     &__title {
         font-size: 20px;
@@ -9,7 +10,10 @@
             color: var(--primary-color);
             font-family: var(--numberFont);
             font-size: 18px;
-            margin-left: .5rem;
+
+            &__text {
+                color: black;
+            }
         }
     }
 
@@ -20,4 +24,10 @@
         color: var(--primary-color);
         font-family: var(--numberFont);
     }
+}
+
+.result-content-search {
+    border-bottom: 1px solid #5A5B5D;
+    padding-bottom: 2rem;
+    margin-bottom: 4rem;
 }

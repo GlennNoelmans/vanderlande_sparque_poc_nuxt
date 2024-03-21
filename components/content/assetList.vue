@@ -50,7 +50,7 @@ function isProduct(assetUrl) {
   <div v-for="(dataItem, dataIndex) in assets" :key="dataIndex">
     <div v-for="(item, itemIndex) in dataItem.items" :key="itemIndex">
       <div v-for="(tupleItem, tupleIndex) in item.tuple" :key="tupleIndex">
-        <div
+        <div v-if="!isProduct(tupleItem.class[0])"
           class="product-filter"
           @click="toggleActiveStructureAndFetchNewLevel(tupleItem, activeArea, activeZone, activeAsset, filterStore, currentCustomer.id)"
           :class="{

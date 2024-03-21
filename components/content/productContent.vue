@@ -11,7 +11,7 @@ const productStore = useProductStore();
 const { selectedStore } = storeToRefs(filterStore);
 const { assetsShown } = storeToRefs(filterStore);
 const { products } = storeToRefs(productStore);
-const { isProductLoaded } = storeToRefs(productStore);
+const { isProductLoading } = storeToRefs(productStore);
 const { isHierarchyLoaded } = storeToRefs(filterStore);
 
 function isProductCard(assetUrl) {
@@ -29,7 +29,7 @@ function isProductCard(assetUrl) {
         <resultContent />
         <productBaseSelectionHeader />
         <div v-if="selectedStore === 'store'">
-            <div v-if="isProductLoaded" class="loading-container">
+            <div v-if="isProductLoading" class="loading-container">
                 <Icon icon="eos-icons:loading" class="loading-container__icon"></Icon>
             </div>
             <div v-if="products[0]?.items?.length === 0" class="no-assets-found">
@@ -41,7 +41,11 @@ function isProductCard(assetUrl) {
                     <productCard v-if="isProductCard(dataItem.tuple[0].class[0])" :dataItem="dataItem"/>
                 </div>
             </div>
-            <productPagination/>
+            <div v-if="products[0]?.items?.length !== 0">
+                <div v-if="products[0]?.items?.length !== undefined">
+                    <productPagination v-if="!isProductLoading"/>
+                </div>
+            </div>
         </div>
         <div v-if="selectedStore === 'base'" >
             <div v-if="isHierarchyLoaded" class="loading-container">
