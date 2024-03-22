@@ -11,13 +11,31 @@ const filterStore = useFilterStore();
 const { currentProduct } = storeToRefs(productStore);
 const { childComponents } = storeToRefs(productStore);
 const { parentComponents } = storeToRefs(productStore);
+const { assetImage } = storeToRefs(productStore);
 const { selectedComponentHeader } = storeToRefs(filterStore);
 const { itemSKU } = useRoute().params;
+const isItemLoading = ref(true);
 
-productStore.searchCurrentProductByMarkNumber(currentCustomer.value.id, itemSKU, 0);
+productStore.setAssetImage(randomizeItemImage(22, 'item'));
+
+onMounted(async () => {
+  try {
+    await Promise.all([
+      productStore.searchCurrentProductByMarkNumber(currentCustomer.value.id, itemSKU, 0)
+    ]);
+    isItemLoading.value = false;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+});
+
 </script>
 <template>
-  <div>
+  <div v-if="isItemLoading" class="loading-container">
+    <div class="horizontal-divider"></div>
+    <Icon icon="eos-icons:loading" class="loading-container__icon"></Icon>
+  </div>
+  <div v-if="!isItemLoading">
     <div class="horizontal-divider"></div>
     <div class="detail-content-container">
       <div class="container">
@@ -30,14 +48,14 @@ productStore.searchCurrentProductByMarkNumber(currentCustomer.value.id, itemSKU,
           </button>
           <div class="product-detail-container">
             <div class="product-gallery">
-              <div class="product-gallery__image"><img :src="randomizeItemImage(22, 'item')" alt="product_in_base" class="product-main-image__image"></img></div>
-              <div class="product-gallery__image"><img :src="randomizeItemImage(22, 'item')" alt="product_in_base" class="product-main-image__image"></img></div>
+              <div class="product-gallery__image"><img :src="assetImage" alt="product_in_base" class="product-main-image__image"></img></div>
+              <div class="product-gallery__image"><img :src="assetImage" alt="product_in_base" class="product-main-image__image"></img></div>
               <button class="product-gallery__next">
                 <Icon icon="ri:arrow-down-s-line"></Icon>
               </button>
             </div>
             <div class="product-main-image">
-                <img :src="randomizeItemImage(22, 'item')" alt="product_in_base" class="product-main-image__image"></img>
+                <img :src="assetImage" alt="product_in_base" class="product-main-image__image"></img>
             </div>
             <div class="product-details-container">
               <h3 class="product-details-container__title">

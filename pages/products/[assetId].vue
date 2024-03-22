@@ -2,20 +2,42 @@
 import { Icon } from "@iconify/vue/dist/iconify.js";
 import { useProductStore } from "~/stores/products";
 import { useFilterStore } from "~/stores/filter";
+import { useCustomerStore } from '@/stores/customer';
 
+const customerStore = useCustomerStore();
+const { currentCustomer } = storeToRefs(customerStore);
 const productStore = useProductStore();
 const filterStore = useFilterStore();
 const { currentProduct } = storeToRefs(productStore);
 const { childComponents } = storeToRefs(productStore);
 const { parentComponents } = storeToRefs(productStore);
+const { assetImage } = storeToRefs(productStore);
 const { selectedComponentHeader } = storeToRefs(filterStore);
 const { assetId } = useRoute().params;
+const isItemLoading = ref(true);
 
 // productStore.getChildComponentsOfProduct(currentCustomer?.value?.id, assetId.toString());
 // productStore.getParentComponentsOfProduct(currentCustomer?.value?.id, assetId.toString());
+productStore.setAssetImage(randomizeItemImage(22, 'item'));
+
+onMounted(async () => {
+  try {
+    await Promise.all([
+      productStore.searchCurrentProductByMarkNumber(currentCustomer.value.id, assetId, 0)
+    ]);
+    isItemLoading.value = false;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+});
+
 </script>
 <template>
-  <div>
+  <div v-if="isItemLoading" class="loading-container">
+    <div class="horizontal-divider"></div>
+    <Icon icon="eos-icons:loading" class="loading-container__icon"></Icon>
+  </div>
+  <div v-if="!isItemLoading">
     <div class="horizontal-divider"></div>
     <div class="detail-content-container">
       <div class="container">
@@ -28,22 +50,22 @@ const { assetId } = useRoute().params;
           </button>
           <div class="product-detail-container">
             <div class="product-gallery">
-              <div class="product-gallery__image"><img :src="randomizeItemImage(22, 'item')" alt="product_in_base" class="product-main-image__image"></img></div>
-              <div class="product-gallery__image"><img :src="randomizeItemImage(22, 'item')" alt="product_in_base" class="product-main-image__image"></img></div>
+              <div class="product-gallery__image"><img :src="assetImage" alt="product_in_base" class="product-main-image__image"></img></div>
+              <div class="product-gallery__image"><img :src="assetImage" alt="product_in_base" class="product-main-image__image"></img></div>
               <button class="product-gallery__next">
                 <Icon icon="ri:arrow-down-s-line"></Icon>
               </button>
             </div>
             <div class="product-main-image">
-                <img :src="randomizeItemImage(22, 'item')" alt="product_in_base" class="product-main-image__image"></img>
+                <img :src="assetImage" alt="product_in_base" class="product-main-image__image"></img>
             </div>
             <div class="product-details-container">
               <h3 class="product-details-container__title">
-                {{ currentProduct?.tuple[0]?.attributes?.Description }}
+                {{ currentProduct[0]?.items[0]?.tuple[0]?.attributes?.Description }}
               </h3>
               <p class="product-details-container__part-number">
                 Part number:
-                <span>{{ currentProduct?.tuple[0]?.attributes?.ItemSKU }}</span>
+                <span>{{ currentProduct[0]?.items[0]?.tuple[0]?.attributes?.ItemSKU }}</span>
               </p>
               <button class="detail-content__link">
                 <NuxtLink to="/"
@@ -54,7 +76,7 @@ const { assetId } = useRoute().params;
               <div class="product-details-container__footer">
                 <div class="product-card__price-container">
                   <p class="product-card__price-container__amount">
-                    {{ currentProduct?.tuple[0]?.attributes?.Price }}
+                    {{ currentProduct[0]?.items[0]?.tuple[0]?.attributes?.Price }}
                   </p>
                   <span class="product-card__price-container__each">
                     / Each</span
@@ -102,7 +124,7 @@ const { assetId } = useRoute().params;
           </div>
           </div>
           <div v-else class="parent-components-container">
-            <div v-for="(dataItem, dataIndex) in currentProduct?.tuple[0].attributes.AssetID" :key="dataIndex" class="parent-components-inner-container">
+            <div v-for="(dataItem, dataIndex) in currentProduct[0]?.items[0]?.tuple[0]?.attributes?.AssetID" :key="dataIndex" class="parent-components-inner-container">
               <detailHierarchyCard :dataItem="dataItem"/>
             </div>
           </div>

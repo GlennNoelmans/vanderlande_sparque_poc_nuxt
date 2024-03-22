@@ -9,6 +9,7 @@ export const useProductStore = defineStore("products", {
     searchedProductsCategories: [] as any,
     productPage: 1 as number,
     productSearchPage: 1 as number,
+    assetImage: "" as string,
     isSearchActive: false as boolean,
     searchKeyword: null as null | string,
     categoryFilter: "" as null | string,
@@ -84,6 +85,9 @@ export const useProductStore = defineStore("products", {
     },
     setInitialDataLoaded(isLoaded: boolean) {
       this.initialDataLoaded = isLoaded;
+    },
+    setAssetImage(image: string) {
+      this.assetImage = image;
     },
     clearSearchedProducts() {
       this.searchedProducts = [];

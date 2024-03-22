@@ -25,6 +25,29 @@ const onCategoryClick = (categoryFilter, event) => {
   }
 }
 
+const isCategoryChecked = (identifier) => {
+  const targetString = 'Electrical component%2bField component';
+const array = ['', 'Electrical component'];
+
+// Check if any element from the array is part of the target string
+const isPartOfTargetString = array.some(item => targetString.includes(item));
+
+if (isPartOfTargetString) {
+  console.log(`One of the elements from the array is part of the target string`);
+} else {
+  console.log(`None of the elements from the array is part of the target string`);
+}
+
+  const filterArray = categorySearchFilter.value.split(',');
+  console.log('filterArray');
+  console.log(filterArray);
+  return array.some((item) => {
+    console.log(item);
+    console.log('item');
+    return identifier.includes(item);});
+  //return filterArray.some((filter) => identifier.includes(filter.trim()));
+}
+
 function getCategoryIdentifier(identifier) {
   const parts = identifier.split('+');
   return parts[parts.length - 1];
@@ -47,7 +70,7 @@ function replacePlusWithEncoded(str) {
       <label class="checkbox-container" @click="onCategoryClick(topItem.identifier, $event)">
         <span>{{ topItem.identifier }}</span>
         <span class="category-item__amount">({{ topItem.probability }})</span>
-        <input type="checkbox" @click.stop>
+        <input type="checkbox" :checked="isCategoryChecked(topItem.identifier)" @click.stop>
         <span class="checkmark"></span>
       </label>
 
@@ -60,7 +83,7 @@ function replacePlusWithEncoded(str) {
       <label class="checkbox-container" @click="onCategoryClick(replacePlusWithEncoded(secondItem.identifier), $event)">
         <span>{{ getCategoryIdentifier(secondItem.identifier) }}</span>
         <span class="category-item__amount">({{ secondItem.probability }})</span>
-        <input type="checkbox" @click.stop>
+        <input type="checkbox" :checked="isCategoryChecked(replacePlusWithEncoded(secondItem.identifier))" @click.stop>
         <span class="checkmark"></span>
       </label>
       </div>
