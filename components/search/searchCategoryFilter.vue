@@ -7,10 +7,11 @@ const { currentCustomer } = storeToRefs(customerStore);
 const productStore = useProductStore();
 const { searchedProductsCategories } = storeToRefs(productStore);
 const { searchKeyword } = storeToRefs(productStore);
-const { productPage } = storeToRefs(productStore);
+const { productSearchPage } = storeToRefs(productStore);
 const { categorySearchFilter } = storeToRefs(productStore);
 
-const onCategoryClick = (categoryFilter) => {
+const onCategoryClick = (categoryFilter, event) => {
+  event.stopPropagation();
   productStore.setProductSearchPage(1);
   productStore.setIsSearchCategoryFilterActive(true);
   productStore.setCategorySearchFilter(categoryFilter);
@@ -20,26 +21,49 @@ const onCategoryClick = (categoryFilter) => {
     productStore.searchProducts(currentCustomer.value.id, searchKeyword.value, 0);
   }
   else {
-    productStore.fetchSearchedProductsFilteredByCategory(currentCustomer.value.id, searchString, categorySearchFilter.value, (productPage.value - 1) * 10);
+    productStore.fetchSearchedProductsFilteredByCategory(currentCustomer.value.id, searchString, categorySearchFilter.value, (productSearchPage.value - 1) * 10);
   }
 }
 
+function getCategoryIdentifier(identifier) {
+  const parts = identifier.split('+');
+  return parts[parts.length - 1];
+}
+
+function replacePlusWithEncoded(str) {
+    return str.replace(/\+/g, '%2b');
+}
 </script>
 
 <template>
   <h2 class="filter-header">Categories:</h2>
   <div class="category-container">
+    <!-- Top level -->
     <div
-      v-for="(item, itemIndex) in searchedProductsCategories"
-      :key="itemIndex"
-      class="category-item-container" @click="onCategoryClick(item.identifier)"
+      v-for="(topItem, topItemIndex) in searchedProductsCategories"
+      :key="topItemIndex"
+      class="category-item-container"
     >
-      <label class="checkbox-container" >
-        <span>{{ item.identifier }}</span>
-        <span class="category-item__amount">({{ item.probability }})</span>
+      <label class="checkbox-container" @click="onCategoryClick(topItem.identifier, $event)">
+        <span>{{ topItem.identifier }}</span>
+        <span class="category-item__amount">({{ topItem.probability }})</span>
         <input type="checkbox" @click.stop>
         <span class="checkmark"></span>
       </label>
+
+      <!-- Middle level -->
+      <div
+      v-for="(secondItem, secondItemIndex) in topItem.children"
+      :key="secondItemIndex"
+      class="category-item-container__second-layer"
+      >
+      <label class="checkbox-container" @click="onCategoryClick(replacePlusWithEncoded(secondItem.identifier), $event)">
+        <span>{{ getCategoryIdentifier(secondItem.identifier) }}</span>
+        <span class="category-item__amount">({{ secondItem.probability }})</span>
+        <input type="checkbox" @click.stop>
+        <span class="checkmark"></span>
+      </label>
+      </div>
     </div>
   </div>
 </template>

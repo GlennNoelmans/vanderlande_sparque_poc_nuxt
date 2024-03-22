@@ -100,6 +100,13 @@
 
 .category-item-container {
   margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #ededed;
+
+  &__second-layer {
+    margin-left: 3rem;
+  }
 }
 
 .category-sub-level {
