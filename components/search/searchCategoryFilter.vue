@@ -14,7 +14,6 @@ const onCategoryClick = (identifier, event) => {
   event.stopPropagation();
   productStore.setProductSearchPage(1);
   productStore.setIsSearchCategoryFilterActive(true);
-  console.log(identifier);
   productStore.adjustCategoryChecked(identifier, searchedProductsCategories.value, 'search');
   let searchString = searchKeyword.value || "";
   if (categorySearchFilter.value === "") {

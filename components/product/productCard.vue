@@ -2,6 +2,7 @@
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useProductStore } from '~/stores/products';
 import { randomizeItemImage } from '~/utils/ImageRandomizer';
+import { roundPriceToTwoDecimalsBehindComma } from '~/utils/RoundPriceToTwoDecimals';
 
 const productStore = useProductStore();
 const props = defineProps(['dataItem']);
@@ -42,7 +43,7 @@ const itemSKU = dataItem.tuple[0].attributes.ItemSKU;
         
         <div class="product-card__footer">
             <div class="product-card__footer__details-container">
-            <div class="product-card__price-container"><p class="product-card__price-container__amount">{{ price }}</p><span class="product-card__price-container__each"> / Each</span></div>
+            <div class="product-card__price-container"><p class="product-card__price-container__amount">{{ roundPriceToTwoDecimalsBehindComma(price) }}</p><span class="product-card__price-container__each"> / Each</span></div>
             <div class="product-card__footer__details-link">
                 <NuxtLink :to="'/products/' + itemSKU" @click="setCurrentProduct()">
                     <Icon icon="ri:arrow-right-s-line" class="product-card__footer__details-link__icon"></Icon>

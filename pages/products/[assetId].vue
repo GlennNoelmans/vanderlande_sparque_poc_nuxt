@@ -3,6 +3,7 @@ import { Icon } from "@iconify/vue/dist/iconify.js";
 import { useProductStore } from "~/stores/products";
 import { useFilterStore } from "~/stores/filter";
 import { useCustomerStore } from '@/stores/customer';
+import { roundPriceToTwoDecimalsBehindComma } from '~/utils/RoundPriceToTwoDecimals';
 
 const customerStore = useCustomerStore();
 const { currentCustomer } = storeToRefs(customerStore);
@@ -19,6 +20,10 @@ const isItemLoading = ref(true);
 // productStore.getChildComponentsOfProduct(currentCustomer?.value?.id, assetId.toString());
 // productStore.getParentComponentsOfProduct(currentCustomer?.value?.id, assetId.toString());
 productStore.setAssetImage(randomizeItemImage(22, 'item'));
+
+function getDescription(description) {
+  return Array.isArray(description) ? description[0] : description;
+}
 
 onMounted(async () => {
   try {
@@ -61,7 +66,7 @@ onMounted(async () => {
             </div>
             <div class="product-details-container">
               <h3 class="product-details-container__title">
-                {{ currentProduct[0]?.items[0]?.tuple[0]?.attributes?.Description }}
+                {{ getDescription(currentProduct[0]?.items[0]?.tuple[0]?.attributes?.Description) }}
               </h3>
               <p class="product-details-container__part-number">
                 Part number:
@@ -76,7 +81,7 @@ onMounted(async () => {
               <div class="product-details-container__footer">
                 <div class="product-card__price-container">
                   <p class="product-card__price-container__amount">
-                    {{ currentProduct[0]?.items[0]?.tuple[0]?.attributes?.Price }}
+                    {{ roundPriceToTwoDecimalsBehindComma(currentProduct[0]?.items[0]?.tuple[0]?.attributes?.Price) }}
                   </p>
                   <span class="product-card__price-container__each">
                     / Each</span

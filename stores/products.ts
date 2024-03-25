@@ -167,7 +167,6 @@ export const useProductStore = defineStore("products", {
       const filterIdentifiers = checkedCategories
         .join(",")
         .replace(/\+/g, "%2b");
-      console.log(filterIdentifiers);
       if (searchTag === 'search') {
         this.setCategorySearchFilter(filterIdentifiers);
       }
