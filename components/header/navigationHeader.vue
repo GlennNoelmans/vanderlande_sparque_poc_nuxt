@@ -1,5 +1,25 @@
 <script setup>
 import { Icon } from '@iconify/vue/dist/iconify.js';
+import { useCustomerStore } from '@/stores/customer';
+import { useProductStore } from '~/stores/products';
+import { useFilterStore } from '~/stores/filter';
+
+const customerStore = useCustomerStore();
+const { currentCustomer } = storeToRefs(customerStore);
+const productStore = useProductStore();
+const filterStore = useFilterStore();
+const home = () => {
+    filterStore.fetchStructure(currentCustomer.value.id, 2, 1, 0);
+    productStore.fetchAllProducts(currentCustomer.value.id, 0);
+    productStore.fetchAllProductCategories(currentCustomer.value.id, "", 0);
+    filterStore?.setFilteredMarkNumber("0000.00.000.000");
+    productStore.setCurrentPage(1);
+    filterStore.setCurrentPage(1);
+    filterStore?.setFilteredAsset(null);
+    filterStore.setActiveArea("");
+    filterStore.setActiveZone("");
+    filterStore.setActiveAsset("");
+}
 </script>
 
 <template>
@@ -20,7 +40,7 @@ import { Icon } from '@iconify/vue/dist/iconify.js';
         <div class="container">
             <div class="nav-container">
                 <div class="nav-left-container">
-                    <NuxtLink to="/"><img src="/vanderlande_icon.png" alt="vanderlande_icon" class="nav-logo"></NuxtLink>
+                    <NuxtLink to="/" @click="home"><img src="/vanderlande.png" alt="vanderlande_icon" class="nav-logo"></NuxtLink>
                     <ul class="nav-menu">
                         <li class="nav-menu__link">Home</li>
                         <li class="nav-menu__link">

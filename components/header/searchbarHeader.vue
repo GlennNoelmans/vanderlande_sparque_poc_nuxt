@@ -23,12 +23,26 @@ const search = () => {
     productStore.setIsSearchActive(true);
     productStore.setIsSearchCategoryFilterActive(false);
 }
+
+const home = () => {
+    filterStore.fetchStructure(currentCustomer.value.id, 2, 1, 0);
+    productStore.fetchAllProducts(currentCustomer.value.id, 0);
+    productStore.fetchAllProductCategories(currentCustomer.value.id, "", 0);
+    filterStore?.setFilteredMarkNumber("0000.00.000.000");
+    productStore.setCurrentPage(1);
+    filterStore.setCurrentPage(1);
+    filterStore?.setFilteredAsset(null);
+    filterStore.setActiveArea("");
+    filterStore.setActiveZone("");
+    filterStore.setActiveAsset("");
+}
+
 </script>
 
 <template>
     <div class="search-header">
             <div class="search-header-container">
-                <h1 class="search-header-container__title"><NuxtLink to="/">Fenego & Sparque.AI - POC</NuxtLink></h1>
+                <h1 class="search-header-container__title" @click="home"><NuxtLink to="/">Fenego & Sparque.AI - POC</NuxtLink></h1>
                 <div class="search-container">
                     <input v-model="searchKeyword" type="text" class="search-container__input"
                         placeholder="Search by product name, item number or mark-number...">

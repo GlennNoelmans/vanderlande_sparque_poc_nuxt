@@ -1,8 +1,6 @@
 <script setup>
-import { useFilterStore } from '@/stores/filter';
 import { useProductStore } from '@/stores/products';
 
-const filterStore = useFilterStore();
 const productStore = useProductStore();
 const { searchKeyword } = storeToRefs(productStore);
 const { searchedProducts } = storeToRefs(productStore);
