@@ -2,7 +2,6 @@
 import customerData from '~/constants/customerData';
 import { useCustomerStore } from '@/stores/customer';
 import { useFilterStore } from '@/stores/filter';
-import { Customer } from '~/models/Customer';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useProductStore } from '~/stores/products';
 
