@@ -8,7 +8,8 @@ const customerStore = useCustomerStore();
 const productStore = useProductStore();
 const filterStore = useFilterStore();
 const { currentCustomer } = storeToRefs(customerStore);
-const searchKeyword = ref('');
+const { searchKeyword } = storeToRefs(productStore);
+//const searchKeyword = ref('');
 
 const openCustomerModal = () => {
     customerStore.toggleShowModal(true);
@@ -19,7 +20,6 @@ const search = () => {
     productStore.fetchAllSearchedProductCategories(currentCustomer.value.id, searchKeyword.value),
     productStore.setProductSearchPage(1);
     productStore.clearCategorySearchFilter();
-    productStore.setSearchKeyword(searchKeyword.value);
     productStore.setIsSearchActive(true);
     productStore.setIsSearchCategoryFilterActive(false);
 }

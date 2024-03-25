@@ -7,9 +7,9 @@ const customerStore = useCustomerStore();
 const productStore = useProductStore();
 const { currentCustomer } = storeToRefs(customerStore);
 const { productPage } = storeToRefs(productStore);
-const { searchKeyword } = storeToRefs(productStore);
 const { totalPages } = storeToRefs(productStore);
 const { categoryFilter } = storeToRefs(productStore);
+const { isCategoryFilterActive } = storeToRefs(productStore);
 
 const setCurrentPage = (page) => {
     if (page < 1 || page > totalPages.value || page === '...') {
@@ -17,8 +17,13 @@ const setCurrentPage = (page) => {
     }
     productStore.setCurrentPage(page);
     const offset = (productPage.value - 1) * 10; 
-    productStore.fetchAllProducts(currentCustomer.value.id, offset);
 
+    if (isCategoryFilterActive.value) {
+      productStore.fetchProductsFilteredByCategory(currentCustomer.value.id, '', categoryFilter.value, offset);
+    }
+    else {
+      productStore.fetchAllProducts(currentCustomer.value.id, offset);
+    }
 };
 
 const displayedPageNumbers = computed(() => {

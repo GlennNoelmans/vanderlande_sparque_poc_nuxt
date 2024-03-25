@@ -103,8 +103,23 @@
   margin-bottom: 2rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #e5eaf5;
+  color: black;
+  color: #58595b;
+
+  &__title {
+    font-weight: 600;
+  }
 
   &__second-layer {
+    margin-left: 3rem;
+
+    &__title {
+      font-weight: 500;
+    }
+
+  }
+
+  &__last-layer {
     margin-left: 3rem;
   }
 }

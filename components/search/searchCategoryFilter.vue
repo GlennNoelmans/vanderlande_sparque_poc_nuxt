@@ -10,11 +10,12 @@ const { searchKeyword } = storeToRefs(productStore);
 const { productSearchPage } = storeToRefs(productStore);
 const { categorySearchFilter } = storeToRefs(productStore);
 
-const onCategoryClick = (categoryFilter, event) => {
+const onCategoryClick = (identifier, event) => {
   event.stopPropagation();
   productStore.setProductSearchPage(1);
   productStore.setIsSearchCategoryFilterActive(true);
-  productStore.setCategorySearchFilter(categoryFilter);
+  console.log(identifier);
+  productStore.adjustCategoryChecked(identifier, searchedProductsCategories.value, 'search');
   let searchString = searchKeyword.value || "";
   if (categorySearchFilter.value === "") {
     productStore.setIsSearchCategoryFilterActive(false);
@@ -25,36 +26,9 @@ const onCategoryClick = (categoryFilter, event) => {
   }
 }
 
-const isCategoryChecked = (identifier) => {
-  const targetString = 'Electrical component%2bField component';
-const array = ['', 'Electrical component'];
-
-// Check if any element from the array is part of the target string
-const isPartOfTargetString = array.some(item => targetString.includes(item));
-
-if (isPartOfTargetString) {
-  console.log(`One of the elements from the array is part of the target string`);
-} else {
-  console.log(`None of the elements from the array is part of the target string`);
-}
-
-  const filterArray = categorySearchFilter.value.split(',');
-  console.log('filterArray');
-  console.log(filterArray);
-  return array.some((item) => {
-    console.log(item);
-    console.log('item');
-    return identifier.includes(item);});
-  //return filterArray.some((filter) => identifier.includes(filter.trim()));
-}
-
 function getCategoryIdentifier(identifier) {
   const parts = identifier.split('+');
   return parts[parts.length - 1];
-}
-
-function replacePlusWithEncoded(str) {
-    return str.replace(/\+/g, '%2b');
 }
 </script>
 
@@ -67,10 +41,10 @@ function replacePlusWithEncoded(str) {
       :key="topItemIndex"
       class="category-item-container"
     >
-      <label class="checkbox-container" @click="onCategoryClick(topItem.identifier, $event)">
+      <label class="checkbox-container category-item-container__title" @click="onCategoryClick(topItem.identifier, $event)">
         <span>{{ topItem.identifier }}</span>
         <span class="category-item__amount">({{ topItem.probability }})</span>
-        <input type="checkbox" :checked="isCategoryChecked(topItem.identifier)" @click.stop>
+        <input type="checkbox" :input-value="topItem.checked" @click.stop :key="topItem.identifier">
         <span class="checkmark"></span>
       </label>
 
@@ -80,12 +54,26 @@ function replacePlusWithEncoded(str) {
       :key="secondItemIndex"
       class="category-item-container__second-layer"
       >
-      <label class="checkbox-container" @click="onCategoryClick(replacePlusWithEncoded(secondItem.identifier), $event)">
-        <span>{{ getCategoryIdentifier(secondItem.identifier) }}</span>
-        <span class="category-item__amount">({{ secondItem.probability }})</span>
-        <input type="checkbox" :checked="isCategoryChecked(replacePlusWithEncoded(secondItem.identifier))" @click.stop>
-        <span class="checkmark"></span>
-      </label>
+        <label class="checkbox-container category-item-container__second-layer__title" @click="onCategoryClick(secondItem.identifier, $event)">
+          <span>{{ getCategoryIdentifier(secondItem.identifier) }}</span>
+          <span class="category-item__amount">({{ secondItem.probability }})</span>
+          <input type="checkbox" :input-value="secondItem.checked" :checked="topItem.checked" @click.stop :key="secondItem.identifier">
+          <span class="checkmark"></span>
+        </label>
+
+        <!-- Lowest level -->
+        <div
+        v-for="(lastItem, lastItemIndex) in secondItem.children"
+        :key="lastItemIndex"
+        class="category-item-container__last-layer"
+        >
+          <label class="checkbox-container category-item-container__last-layer__title" @click="onCategoryClick(lastItem.identifier, $event)">
+            <span>{{ getCategoryIdentifier(lastItem.identifier) }}</span>
+            <span class="category-item__amount">({{ lastItem.probability }})</span>
+            <input type="checkbox" :input-value="lastItem.checked" :checked="secondItem.checked" @click.stop :key="lastItem.identifier">
+            <span class="checkmark"></span>
+          </label>
+        </div>
       </div>
     </div>
   </div>

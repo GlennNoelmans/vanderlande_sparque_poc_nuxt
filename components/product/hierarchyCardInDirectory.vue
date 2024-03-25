@@ -46,7 +46,7 @@ else {
 <template>
     <div class="hierarchy-card">
         <div class="product-card__image-container">
-                <img :src="randomizeItemImage(maxImageCount, imageName.toLowerCase())" alt="product" class="product-card__image">
+                <img :src="randomizeItemImage(maxImageCount, imageName.toLowerCase())" alt="product" class="hierarchy-card__image">
                     <div class="product-card__label-container">
                         <div class="product-card__label-container__content">
                         {{ labelContent.toUpperCase() }}

@@ -71,17 +71,12 @@ export const useProductStore = defineStore("products", {
       this.searchKeyword = keyword;
     },
     setCategoryFilter(filter: string) {
-      this.categoryFilter = this.categoryFilter + "," + filter;
+      this.categoryFilter = "";
+      this.categoryFilter = filter;
     },
     setCategorySearchFilter(filter: string) {
-      const filters = this.categorySearchFilter.split(",");
-      const index = filters.indexOf(filter);
-      if (index === -1) {
-        filters.push(filter);
-      } else {
-        filters.splice(index, 1);
-      }
-      this.categorySearchFilter = filters.join(",");
+      this.categorySearchFilter = "";
+      this.categorySearchFilter = filter;
     },
     setInitialDataLoaded(isLoaded: boolean) {
       this.initialDataLoaded = isLoaded;
@@ -97,6 +92,89 @@ export const useProductStore = defineStore("products", {
     },
     clearCategorySearchFilter() {
       this.categorySearchFilter = "";
+    },
+    adjustCategoryChecked(identifier: any, productCategories: any, searchTag: string) {
+      const categoryArray = identifier.split("+");
+      
+      // Find the parent category
+      const parentCategory = productCategories.find(
+        (category: { identifier: string }) => {
+          const categoryIdentifier = category.identifier.split("+")[0];
+          return categoryIdentifier === categoryArray[0];
+        }
+      );
+    
+      // Find the child category
+      const childCategory = parentCategory && parentCategory.children.find(
+        (child: { identifier: string }) => {
+          const childIdentifier = child.identifier.split("+")[1];
+          return childIdentifier === categoryArray[1];
+        }
+      );
+    
+      // Find the last child category if exists
+      const lastChildCategory = childCategory && childCategory.children.find(
+        (lastChild: { identifier: string }) => {
+          const lastChildIdentifier = lastChild.identifier.split("+")[2];
+          return lastChildIdentifier === categoryArray[2];
+        }
+      );
+    
+      // Toggle the checked state based on the category level
+      if (categoryArray.length === 1) {
+        if (parentCategory) {
+          parentCategory.checked = !parentCategory.checked;
+          const children = parentCategory.children;
+          for (const child of children) {
+            child.checked = parentCategory.checked;
+            // Update the checked state of last child categories
+            for (const lastChild of child.children) {
+              lastChild.checked = parentCategory.checked;
+            }
+          }
+        }
+      } else if (categoryArray.length === 2) {
+        if (childCategory) {
+          childCategory.checked = !childCategory.checked;
+          // Update the checked state of last child categories
+          for (const lastChild of childCategory.children) {
+            lastChild.checked = childCategory.checked;
+          }
+        }
+      } else if (categoryArray.length === 3) {
+        if (lastChildCategory) {
+          lastChildCategory.checked = !lastChildCategory.checked;
+        }
+      }
+    
+      this.setFilterIdentifiers(productCategories, searchTag);
+    },
+    setFilterIdentifiers(productCategories: any, searchTag: string) {
+      const checkedCategories: any[] = [];
+      const traverseCategories = (categories: any[]) => {
+        categories.forEach((category: any) => {
+          if (category.checked) {
+            checkedCategories.push(category.identifier);
+          }
+          if (category.children) {
+            traverseCategories(category.children);
+          }
+        });
+      };
+
+      traverseCategories(productCategories);
+
+      const filterIdentifiers = checkedCategories
+        .join(",")
+        .replace(/\+/g, "%2b");
+      console.log(filterIdentifiers);
+      if (searchTag === 'search') {
+        this.setCategorySearchFilter(filterIdentifiers);
+      }
+      else {
+        this.setCategoryFilter(filterIdentifiers);
+      }
+      
     },
     async fetchAllProducts(site_id: number, offset: number | string) {
       this.isProductLoading = true;
@@ -130,7 +208,8 @@ export const useProductStore = defineStore("products", {
             },
           }
         );
-        this.productCategories = data;
+        const reworkedCategoryData = reworkCategoryData(data);
+        this.productCategories = reworkedCategoryData;
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
         throw error;
@@ -197,7 +276,6 @@ export const useProductStore = defineStore("products", {
         );
         const reworkedCategoryData = reworkCategoryData(data);
         this.searchedProductsCategories = reworkedCategoryData;
-        console.log(reworkedCategoryData);
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
         throw error;
@@ -313,6 +391,7 @@ function reworkCategoryData(data: any) {
         id: item_id,
         identifier: item_identifier,
         probability: item_probability,
+        checked: false,
         children: processTuple(data[0].items, 0, data, item_identifier),
       });
     }
@@ -339,6 +418,7 @@ function processTuple(
         id: item_id,
         identifier: item_identifier,
         probability: item_probability,
+        checked: false,
         children: [],
       });
     }
