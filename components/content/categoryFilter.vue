@@ -40,7 +40,7 @@ function getCategoryIdentifier(identifier) {
     >
       <label class="checkbox-container category-item-container__title" @click="onCategoryClick(topItem.identifier, $event)">
         <span>{{ topItem.identifier }}</span>
-        <span class="category-item__amount">({{ topItem.probability }})</span>
+        <span class="category-item__amount">({{ topItem.probability }})</span>{{ topItem.checked }}
         <input type="checkbox" :input-value="topItem.checked" @click.stop :key="topItem.identifier">
         <span class="checkmark"></span>
       </label>
@@ -53,7 +53,7 @@ function getCategoryIdentifier(identifier) {
       >
         <label class="checkbox-container category-item-container__second-layer__title" @click="onCategoryClick(secondItem.identifier, $event)">
           <span>{{ getCategoryIdentifier(secondItem.identifier) }}</span>
-          <span class="category-item__amount">({{ secondItem.probability }})</span>
+          <span class="category-item__amount">({{ secondItem.probability }})</span>{{ secondItem.checked }}
           <input type="checkbox" :input-value="secondItem.checked" :checked="topItem.checked" @click.stop :key="secondItem.identifier">
           <span class="checkmark"></span>
         </label>
@@ -66,7 +66,7 @@ function getCategoryIdentifier(identifier) {
         >
           <label class="checkbox-container category-item-container__last-layer__title" @click="onCategoryClick(lastItem.identifier, $event)">
             <span>{{ getCategoryIdentifier(lastItem.identifier) }}</span>
-            <span class="category-item__amount">({{ lastItem.probability }})</span>
+            <span class="category-item__amount">({{ lastItem.probability }})</span>{{ lastItem.checked }}
             <input type="checkbox" :input-value="lastItem.checked" :checked="secondItem.checked" @click.stop :key="lastItem.identifier">
             <span class="checkmark"></span>
           </label>
