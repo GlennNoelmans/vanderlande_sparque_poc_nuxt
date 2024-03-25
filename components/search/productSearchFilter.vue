@@ -16,6 +16,9 @@ function fetchAllProducts() {
     productStore.fetchAllProductCategories(currentCustomer.value.id, "", 0);
     productStore.setCurrentPage(1);
     productStore.setSearchKeyword('');
+    productStore.setCategoryFilter('');
+    productStore.setCategorySearchFilter('');
+    productStore.setIsCategoryFilterActive(false);
 }
 
 </script>

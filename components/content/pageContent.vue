@@ -1,7 +1,10 @@
 <script setup>
 import { useFilterStore } from '@/stores/filter';
 import { useProductStore } from '~/stores/products';
+import { useCustomerStore } from '@/stores/customer';
 
+const customerStore = useCustomerStore();
+const { currentCustomer } = storeToRefs(customerStore);
 const filterStore = useFilterStore();
 const productStore = useProductStore();
 const runtimeConfig = useRuntimeConfig();
@@ -16,6 +19,12 @@ if (!initialDataLoaded.value) {
     ]);
     productStore.setInitialDataLoaded(true);
 }; 
+
+productStore.fetchAllProducts(currentCustomer.value.id, 0);
+productStore.fetchAllProductCategories(currentCustomer.value.id, "", 0);
+productStore.setCurrentPage(1);
+productStore.setCategoryFilter('');
+productStore.setIsCategoryFilterActive(false);
 
 </script>
 <template>
