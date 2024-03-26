@@ -15,6 +15,7 @@ export default defineNuxtConfig({
     { path: '~/components/modals', extensions: ['vue'] },
     { path: '~/components/detail', extensions: ['vue'] },
     { path: '~/components/pagination', extensions: ['vue'] },
+    { path: '~/components/search', extensions: ['vue'] },
   ],
   modules: [
     '@pinia/nuxt',

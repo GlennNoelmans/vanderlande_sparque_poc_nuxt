@@ -10,6 +10,10 @@ export const useProductStore = defineStore("products", {
     productPage: 1 as number,
     productSearchPage: 1 as number,
     assetImage: "" as string,
+    isSparepartsActiveInDirectory: false as boolean,
+    isLocationActiveInDirectory: false as boolean,
+    isSparepartsActiveInSearch: false as boolean,
+    isLocationActiveInSearch: false as boolean,
     isSearchActive: false as boolean,
     searchKeyword: null as null | string,
     categoryFilter: "" as null | string,
@@ -92,6 +96,34 @@ export const useProductStore = defineStore("products", {
     },
     clearCategorySearchFilter() {
       this.categorySearchFilter = "";
+    },
+    setIsSparepartsActiveInDirectory(isActive: boolean = true) {
+      if (!isActive) {
+        this.isSparepartsActiveInDirectory = isActive;
+        return;
+      };
+      this.isSparepartsActiveInDirectory = !this.isSparepartsActiveInDirectory;
+    },
+    setIsLocationActiveInDirectory(isActive: boolean = true) {
+      if (!isActive) {
+        this.isLocationActiveInDirectory = isActive;
+        return;
+      };
+      this.isLocationActiveInDirectory = !this.isLocationActiveInDirectory;
+    },
+    setIsSparepartsActiveInSearch(isActive: boolean = true) {
+      if (!isActive) {
+        this.isSparepartsActiveInSearch = isActive;
+        return;
+      };
+      this.isSparepartsActiveInSearch = !this.isSparepartsActiveInSearch;
+    },
+    setIsLocationActiveInSearch(isActive: boolean = true) {
+      if (!isActive) {
+        this.isLocationActiveInSearch = isActive;
+        return;
+      };
+      this.isLocationActiveInSearch = !this.isLocationActiveInSearch;
     },
     adjustCategoryChecked(identifier: any, productCategories: any, searchTag: string) {
       const categoryArray = identifier.split("+");
@@ -195,6 +227,26 @@ export const useProductStore = defineStore("products", {
         throw error;
       }
     },
+    async fetchAllProductsWithTypeFilter(site_id: number, filterType: string, offset: number | string) {
+      this.isProductLoading = true;
+      this.clearProducts();
+      const runtimeConfig = useRuntimeConfig();
+      try {
+        const data = await $fetch(
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/AllProducts/p/siteID/${site_id}/e/TypeFilter/p/filter/${filterType}/results,count?config=default&offset=${offset}`,
+          {
+            headers: {
+              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
+            },
+          }
+        );
+        this.products = data;
+        this.isProductLoading = false;
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+        throw error;
+      }
+    },
     async fetchAllProductCategories(site_id: number, keyword: string) {
       this.clearProductCategories();
       const runtimeConfig = useRuntimeConfig();
@@ -218,7 +270,7 @@ export const useProductStore = defineStore("products", {
     async fetchProductsFilteredByCategory(
       site_id: number,
       keyword: string,
-      filter: string,
+      category: string,
       offset: string
     ) {
       this.isProductLoading = true;
@@ -226,7 +278,34 @@ export const useProductStore = defineStore("products", {
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/p/filter/${filter}/results,count?config=default&count=10&offset=${offset}`,
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/p/filter/${category}/results,count?config=default&count=10&offset=${offset}`,
+          {
+            headers: {
+              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
+            },
+          }
+        );
+        this.products = data;
+        this.isProductLoading = false;
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+        throw error;
+      }
+    },
+
+    async fetchProductsFilteredByCategoryAndTypeFilter(
+      site_id: number,
+      keyword: string,
+      category: string,
+      filterType: string,
+      offset: string
+    ) {
+      this.isProductLoading = true;
+      this.clearProducts();
+      const runtimeConfig = useRuntimeConfig();
+      try {
+        const data = await $fetch(
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/p/filter/${category}/e/TypeFilter/p/filter/${filterType}/results,count?config=default&count=10&offset=${offset}`,
           {
             headers: {
               Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,

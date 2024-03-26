@@ -8,6 +8,8 @@ const productStore = useProductStore();
 const { productCategories } = storeToRefs(productStore);
 const { productPage } = storeToRefs(productStore);
 const { categoryFilter } = storeToRefs(productStore);
+const { isSparepartsActiveInDirectory } = storeToRefs(productStore);
+const { isLocationActiveInDirectory } = storeToRefs(productStore);
 
 const onCategoryClick = (identifier, event) => {
   event.stopPropagation();
@@ -16,11 +18,35 @@ const onCategoryClick = (identifier, event) => {
   productStore.adjustCategoryChecked(identifier, productCategories.value, 'all');
   if (categoryFilter.value === "") {
     productStore.setIsCategoryFilterActive(false);
-    productStore.fetchAllProducts(currentCustomer.value.id, 0);
+
+    if (isSparepartsActiveInDirectory.value && isLocationActiveInDirectory.value) {
+        fetchAllProductsWithTypeFilter('Asset_Item');
+    } else if (isLocationActiveInDirectory.value) {
+        fetchAllProductsWithTypeFilter('Asset');
+    } else if (isSparepartsActiveInDirectory.value) {
+        fetchAllProductsWithTypeFilter('Item');
+    } else {
+      productStore.fetchAllProducts(currentCustomer.value.id, 0);
+    }
   }
   else {
-    productStore.fetchProductsFilteredByCategory(currentCustomer.value.id, "", categoryFilter.value, (productPage.value - 1) * 10);
+    if (isSparepartsActiveInDirectory.value && isLocationActiveInDirectory.value) {
+      fetchAllProductsByCategoryAndTypeFilter('Asset_Item');
+    } else if (isLocationActiveInDirectory.value) {
+      fetchAllProductsByCategoryAndTypeFilter('Asset');
+    } else if (isSparepartsActiveInDirectory.value) {
+      fetchAllProductsByCategoryAndTypeFilter('Item');
+    } else {
+      productStore.fetchProductsFilteredByCategory(currentCustomer.value.id, "", categoryFilter.value, (productPage.value - 1) * 10);
+    }
   }
+}
+function fetchAllProductsWithTypeFilter(typeFilter) {
+  productStore.fetchAllProductsWithTypeFilter(currentCustomer.value.id, typeFilter, 0);
+}
+
+function fetchAllProductsByCategoryAndTypeFilter(typeFilter) {
+  productStore.fetchProductsFilteredByCategoryAndTypeFilter(currentCustomer.value.id, "", categoryFilter.value, typeFilter, 0);
 }
 
 function getCategoryIdentifier(identifier) {

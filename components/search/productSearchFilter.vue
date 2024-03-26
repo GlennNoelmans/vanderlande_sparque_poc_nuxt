@@ -19,6 +19,10 @@ function fetchAllProducts() {
     productStore.setCategoryFilter('');
     productStore.setCategorySearchFilter('');
     productStore.setIsCategoryFilterActive(false);
+    productStore.setIsLocationActiveInDirectory(false);
+    productStore.setIsSparepartsActiveInDirectory(false);
+    productStore.setIsLocationActiveInSearch(false);
+    productStore.setIsSparepartsActiveInSearch(false);
 }
 
 </script>
@@ -36,15 +40,9 @@ function fetchAllProducts() {
                 <input type="checkbox">
                 <span class="checkmark"></span>
             </label>
-            <label class="checkbox-container">Spareparts 
-                <span class="checkbox-container__part-amount">(0)</span>
-                <input type="checkbox">
-                <span class="checkmark"></span>
-            </label>
-            <label class="checkbox-container">Location
-                <input type="checkbox">
-                <span class="checkmark"></span>
-            </label>
+            <div>
+                <AssetFilterInSearch />
+            </div>
         </div>
         <div>
             <searchCategoryFilter/>
