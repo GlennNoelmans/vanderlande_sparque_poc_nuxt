@@ -11,6 +11,8 @@ const { searchKeyword } = storeToRefs(productStore);
 const { totalSearchedPages } = storeToRefs(productStore);
 const { categorySearchFilter } = storeToRefs(productStore);
 const { isSearchCategoryFilterActive } = storeToRefs(productStore);
+const { isLocationActiveInSearch } = storeToRefs(productStore);
+const { isSparepartsActiveInSearch } = storeToRefs(productStore);
 
 const setCurrentPage = (page) => {
     if (page < 1 || page > totalSearchedPages.value || page === '...') {
@@ -18,14 +20,38 @@ const setCurrentPage = (page) => {
     }
     productStore.setProductSearchPage(page);
     const offset = (productSearchPage.value - 1) * 10; 
-    
+
     if (isSearchCategoryFilterActive.value) {
-        productStore.fetchSearchedProductsFilteredByCategory(currentCustomer.value.id, searchKeyword.value, categorySearchFilter.value, (productSearchPage.value - 1) * 10);
+      checkIfLocationAndPartsFiltersAreActive();
+      if(!isLocationActiveInSearch.value && !isSparepartsActiveInSearch.value) {
+        productStore.fetchSearchedProductsFilteredByCategory(currentCustomer.value.id, searchKeyword.value, categorySearchFilter.value, offset);
+      }
     }
     else {
+      checkIfLocationAndPartsFiltersAreActive();
+      if(!isLocationActiveInSearch.value && !isSparepartsActiveInSearch.value) {
         productStore.searchProducts(currentCustomer.value.id, searchKeyword.value, offset);
+      }
     }
 };
+
+function checkIfLocationAndPartsFiltersAreActive() {
+  if (isSparepartsActiveInSearch.value && isLocationActiveInSearch.value) {
+        fetchProductsWithTypeFilter('Asset_Item');
+    } else if (isLocationActiveInSearch.value) {
+        fetchProductsWithTypeFilter('Asset');
+    } else if (isSparepartsActiveInSearch.value) {
+        fetchProductsWithTypeFilter('Item');
+    }
+}
+
+function fetchProductsWithTypeFilter(typeFilter) {
+    if(isSearchCategoryFilterActive.value) {
+      productStore.fetchSearchedProductsFilteredByCategoryAndTypeFilter(currentCustomer.value.id, searchKeyword.value, categorySearchFilter.value, typeFilter, (productSearchPage.value - 1) * 10)
+    } else {
+      productStore.searchProductsWithTypeFilter(currentCustomer.value.id, searchKeyword.value, typeFilter, (productSearchPage.value - 1) * 10);
+    }
+}
 
 const displayedPageNumbers = computed(() => {
   const pageCount = 5;

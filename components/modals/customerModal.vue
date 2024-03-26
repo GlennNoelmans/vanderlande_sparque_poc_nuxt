@@ -16,18 +16,21 @@ const selectedCustomer = ref(defaultCustomer);
 
 customerStore.setCurrentCustomer(defaultCustomer);
 const updateSelectedCustomer = () => {
-    customerStore.setCurrentCustomer(selectedCustomer.value);
+
 };
 
 const selectCustomer = () => {
+    customerStore.setCurrentCustomer(selectedCustomer.value);
     productStore.setCurrentPage(1);
     filterStore.setCurrentPage(1);
     productStore.setSearchKeyword(null);
     filterStore.setFilteredAsset(null);
     filterStore?.setFilteredMarkNumber("0000.00.000.000");
+    productStore.setCategoryFilter('');
     filterStore.fetchStructure(currentCustomer.value.id, 2, 1, 0);
     productStore.fetchAllProducts(currentCustomer.value.id, 0);
     runtimeConfig.public.SITE_ID = currentCustomer.value.id;
+    productStore.fetchAllProductCategories(currentCustomer.value.id, "", 0);
     customerStore.toggleShowModal(false);
     filterStore.setFilteredAssetLabel("Area");
     filterStore.setActiveArea("");

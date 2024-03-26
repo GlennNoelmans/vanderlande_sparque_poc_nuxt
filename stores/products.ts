@@ -340,6 +340,26 @@ export const useProductStore = defineStore("products", {
         throw error;
       }
     },
+    async searchProductsWithTypeFilter(site_id: number, keyword: string, filterType: string, offset: string) {
+      this.isProductLoading = true;
+      this.clearSearchedProducts();
+      const runtimeConfig = useRuntimeConfig();
+      try {
+        const data = await $fetch(
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/TypeFilter/p/filter/{{keyword2}}/results,count?config=default&count=10&offset=${offset}`,
+          {
+            headers: {
+              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
+            },
+          }
+        );
+        this.searchedProducts = data;
+        this.isProductLoading = false;
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+        throw error;
+      }
+    },
     async fetchAllSearchedProductCategories(site_id: number, keyword: string) {
       this.clearSearchedProductsCategories();
       const runtimeConfig = useRuntimeConfig();
@@ -362,7 +382,7 @@ export const useProductStore = defineStore("products", {
     async fetchSearchedProductsFilteredByCategory(
       site_id: number,
       keyword: string,
-      filter: string,
+      category: string,
       offset: string
     ) {
       this.isProductLoading = true;
@@ -370,7 +390,33 @@ export const useProductStore = defineStore("products", {
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/p/filter/${filter}/results,count?config=default&count=10&offset=${offset}`,
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/p/filter/${category}/results,count?config=default&count=10&offset=${offset}`,
+          {
+            headers: {
+              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
+            },
+          }
+        );
+        this.searchedProducts = data;
+        this.isProductLoading = false;
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+        throw error;
+      }
+    },
+    async fetchSearchedProductsFilteredByCategoryAndTypeFilter(
+      site_id: number,
+      keyword: string,
+      category: string,
+      filterType: string,
+      offset: string
+    ) {
+      this.isProductLoading = true;
+      this.clearSearchedProducts();
+      const runtimeConfig = useRuntimeConfig();
+      try {
+        const data = await $fetch(
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/p/filter/${category}/e/TypeFilter/p/filter/${filterType}/results,count?config=default&count=10&offset=${offset}`,
           {
             headers: {
               Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,

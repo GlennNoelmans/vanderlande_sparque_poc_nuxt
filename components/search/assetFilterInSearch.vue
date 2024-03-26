@@ -6,6 +6,9 @@ const customerStore = useCustomerStore();
 const { currentCustomer } = storeToRefs(customerStore);
 const productStore = useProductStore();
 const { productSearchPage } = storeToRefs(productStore);
+const { searchKeyword } = storeToRefs(productStore);
+const { categorySearchFilter } = storeToRefs(productStore);
+const { isSearchCategoryFilterActive } = storeToRefs(productStore);
 const { isSparepartsActiveInSearch } = storeToRefs(productStore);
 const { isLocationActiveInSearch } = storeToRefs(productStore);
 
@@ -34,11 +37,19 @@ const toggleIsLocationActiveInSearch = () => {
 }
 
 function fetchStructureWithDefaults() {
-    //productStore?.fetchStructure(currentCustomer.value.id, filteredAsset?.value?.attributes?.AssetID || 2, filteredAsset?.value?.attributes?.systemDepthNumber || 1, (hierarchyPage?.value - 1) * 10);
+    if (isSearchCategoryFilterActive.value) {
+        productStore.fetchSearchedProductsFilteredByCategory(currentCustomer.value.id, searchKeyword.value, categorySearchFilter.value, 0);
+    } else {
+        productStore.searchProducts(currentCustomer.value.id, searchKeyword.value, 0);
+    }
 }
 
 function fetchStructureWithTypeFilter(typeFilter) {
-    //productStore.fetchStructureWithTypeFilter(currentCustomer.value.id, filteredAsset?.value?.attributes?.AssetID || 2, typeFilter, 0);
+    if (isSearchCategoryFilterActive.value) {
+        productStore.fetchSearchedProductsFilteredByCategoryAndTypeFilter(currentCustomer.value.id, searchKeyword.value, categorySearchFilter.value, typeFilter, 0);
+    } else {
+        productStore.searchProductsWithTypeFilter(currentCustomer.value.id, searchKeyword.value, typeFilter, 0);
+    }
 }
 
 </script>
