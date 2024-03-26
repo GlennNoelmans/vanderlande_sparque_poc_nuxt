@@ -9,6 +9,12 @@ export const useFilterStore = defineStore("filter", {
     assetsShown: [] as any,
     selectedStore: "base",
     selectedComponentHeader: "location",
+    isSparepartsActiveInBase: false as boolean,
+    isLocationActiveInBase: false as boolean,
+    isSparepartsActiveInDirectory: false as boolean,
+    isLocationActiveInDirectory: false as boolean,
+    isSparepartsActiveInSearch: false as boolean,
+    isLocationActiveInSearch: false as boolean,
     filteredAsset: null as any,
     filteredAssetLabel: "Area" as string,
     filteredMarkNumber: "0000.00.000.000" as string,
@@ -69,6 +75,12 @@ export const useFilterStore = defineStore("filter", {
     setAssetPage(page: number) {
       this.hierarchyAssetPage = page;
     },
+    setIsSparepartsActiveInBase() {
+      this.isSparepartsActiveInBase = !this.isSparepartsActiveInBase;
+    },
+    setIsLocationActiveInBase() {
+      this.isLocationActiveInBase = !this.isLocationActiveInBase;
+    },
     async fetchStructure(
       site_id: number,
       keyword: number | string,
@@ -103,6 +115,31 @@ export const useFilterStore = defineStore("filter", {
           default:
             break;
         }
+      } catch (error: any) {
+        console.error("Error fetching data:", error.message);
+        throw error;
+      }
+    },
+    async fetchStructureWithTypeFilter(
+      site_id: number,
+      keyword: number | string,
+      filter: string,
+      offset: number,
+    ) {
+      this.isHierarchyLoaded = true;
+      this.clearAssetsShown();
+      const runtimeConfig = useRuntimeConfig();
+      try {
+        const data = await $fetch(
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Hierarchy/p/siteID/${site_id}/p/query/${keyword}/e/TypeFilter/p/filter/${filter}/results,count?config=default&offset=${offset}`,
+          {
+            headers: {
+              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
+            },
+          }
+        );
+        this.assetsShown = data;
+        this.isHierarchyLoaded = false;
       } catch (error: any) {
         console.error("Error fetching data:", error.message);
         throw error;

@@ -19,6 +19,8 @@ const { filteredMarkNumber } = storeToRefs(filterStore);
 const { hierarchyPage } = storeToRefs(filterStore);
 const { totalPages } = storeToRefs(filterStore);
 const { filteredAsset } = storeToRefs(filterStore);
+const { isSparepartsActiveInBase } = storeToRefs(filterStore);
+const { isLocationActiveInBase } = storeToRefs(filterStore);
 const { totalProducts } = storeToRefs(productStore);
 
 const fetchTopStructure = () => {
@@ -54,6 +56,39 @@ const toggleActiveHeader = () => {
     }
     filterStore.setSelectedStore('base');
 };
+
+
+const toggleFiltersActive = () => {
+    if (isSparepartsActiveInBase.value && isLocationActiveInBase.value) {
+        fetchStructureWithTypeFilter('Asset_Item');
+    } else if (isLocationActiveInBase.value) {
+        fetchStructureWithTypeFilter('Asset');
+    } else if (isSparepartsActiveInBase.value) {
+        fetchStructureWithTypeFilter('Item');
+    } else {
+        fetchStructureWithDefaults();
+    }
+}
+
+const toggleIsSparepartsActiveInBase = () => {
+    filterStore.setIsSparepartsActiveInBase();
+    filterStore.setCurrentPage(1);
+    toggleFiltersActive();
+}
+
+const toggleIsLocationActiveInBase = () => {
+    filterStore.setIsLocationActiveInBase();
+    filterStore.setCurrentPage(1);
+    toggleFiltersActive();
+}
+
+function fetchStructureWithDefaults() {
+    filterStore?.fetchStructure(currentCustomer.value.id, filteredAsset?.value?.attributes?.AssetID || 2, filteredAsset?.value?.attributes?.systemDepthNumber || 1, (hierarchyPage?.value - 1) * 10);
+}
+function fetchStructureWithTypeFilter(typeFilter) {
+    filterStore.fetchStructureWithTypeFilter(currentCustomer.value.id, filteredAsset?.value?.attributes?.AssetID || 2, typeFilter, 0);
+}
+
 </script>
 <template>
     <div class="product-filter-container">
@@ -63,16 +98,30 @@ const toggleActiveHeader = () => {
                 <input type="checkbox" :checked="selectedStore === 'base'" @change="toggleActiveHeader">
                 <span class="checkmark"></span>
             </label>
-            <label class="checkbox-container">Spareparts 
-                <span v-if="selectedStore === 'store'" class="checkbox-container__part-amount">({{ totalProducts }})</span>
-                <span v-else class="checkbox-container__part-amount">(0)</span>
-                <input type="checkbox">
-                <span class="checkmark"></span>
-            </label>
-            <label class="checkbox-container">Location
-                <input type="checkbox">
-                <span class="checkmark"></span>
-            </label>
+            <div v-if="selectedStore === 'base'">
+                <label class="checkbox-container">Spareparts 
+                    <span v-if="selectedStore === 'store'" class="checkbox-container__part-amount">({{ totalProducts }})</span>
+                    <!--<span v-else class="checkbox-container__part-amount">(0)</span>-->
+                    <input type="checkbox" :checked="isSparepartsActiveInBase" @change="toggleIsSparepartsActiveInBase">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">Location
+                    <input type="checkbox" :checked="isLocationActiveInBase" @change="toggleIsLocationActiveInBase">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div v-else>
+                <label class="checkbox-container">Spareparts 
+                    <span v-if="selectedStore === 'store'" class="checkbox-container__part-amount">({{ totalProducts }})</span>
+                    <!--<span v-else class="checkbox-container__part-amount">(0)</span>-->
+                    <input type="checkbox" :checked="filterType === 'spareparts'" @change="toggleIsSparepartsActive">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">Location
+                    <input type="checkbox" @change="toggleIsLocationActive">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
         </div>
         <div v-if="selectedStore == 'base'">
             <h2 class="filter-header">Structure:</h2>

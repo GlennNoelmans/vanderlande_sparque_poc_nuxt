@@ -9,20 +9,55 @@ const { currentCustomer } = storeToRefs(customerStore);
 const { hierarchyPage } = storeToRefs(filterStore);
 const { totalPages } = storeToRefs(filterStore);
 const { filteredAsset } = storeToRefs(filterStore);
+const { isLocationActiveInBase } = storeToRefs(filterStore);
+const { isSparepartsActiveInBase } = storeToRefs(filterStore);
+
+
+// const setCurrentPage = (page) => {
+//     if (page < 1 || page > totalPages.value || page === '...') {
+//         return;
+//     }
+//     filterStore?.setCurrentPage(page);
+//     if (filteredAsset.value === null) {
+//       filterStore?.fetchStructure(currentCustomer.value.id, 2, 1, (hierarchyPage?.value - 1) * 10);
+//     }
+//     else {
+//       filterStore?.fetchStructure(currentCustomer.value.id, filteredAsset?.value?.attributes?.AssetID, filteredAsset?.value?.attributes?.systemDepthNumber, (hierarchyPage?.value - 1) * 10);
+//     }
+// };
 
 const setCurrentPage = (page) => {
-    if (page < 1 || page > totalPages.value || page === '...') {
-        return;
-    }
-    filterStore?.setCurrentPage(page);
-    if (filteredAsset.value === null) {
+  if (page < 1 || page > totalPages.value || page === '...') {
+    return;
+  }
+  filterStore?.setCurrentPage(page);
+  if (filteredAsset.value === null) {
+    checkIfFiltersAreActive();
+    if(!isLocationActiveInBase.value && !isSparepartsActiveInBase.value) {
       filterStore?.fetchStructure(currentCustomer.value.id, 2, 1, (hierarchyPage?.value - 1) * 10);
     }
-    else {
+  }
+  else {
+    checkIfFiltersAreActive();
+    if(!isLocationActiveInBase.value && !isSparepartsActiveInBase.value) {
       filterStore?.fetchStructure(currentCustomer.value.id, filteredAsset?.value?.attributes?.AssetID, filteredAsset?.value?.attributes?.systemDepthNumber, (hierarchyPage?.value - 1) * 10);
     }
-    
+  }
 };
+
+function checkIfFiltersAreActive() {
+  if (isSparepartsActiveInBase.value && isLocationActiveInBase.value) {
+        fetchStructureWithTypeFilter('Asset_Item');
+    } else if (isLocationActiveInBase.value) {
+        fetchStructureWithTypeFilter('Asset');
+    } else if (isSparepartsActiveInBase.value) {
+        fetchStructureWithTypeFilter('Item');
+    }
+}
+
+function fetchStructureWithTypeFilter(typeFilter) {
+    filterStore.fetchStructureWithTypeFilter(currentCustomer.value.id, filteredAsset?.value?.attributes?.AssetID || 2, typeFilter, (hierarchyPage?.value - 1) * 10);
+}
 
 const displayedPageNumbers = computed(() => {
   const pageCount = 5;

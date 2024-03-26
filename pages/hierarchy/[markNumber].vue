@@ -59,6 +59,7 @@ onMounted(async () => {
     ]);
 
     const assetId = currentProduct.value[0]?.items[0]?.tuple[0]?.attributes?.AssetID;
+    console.log(assetId);
     if (assetId) {
       await Promise.all([
         productStore.getChildComponentsOfProduct(currentCustomer.value?.id, assetId),
