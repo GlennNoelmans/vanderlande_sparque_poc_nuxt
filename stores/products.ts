@@ -213,12 +213,7 @@ export const useProductStore = defineStore("products", {
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/AllProducts/p/siteID/${site_id}/results,count?config=default&offset=${offset}`,
-          {
-            headers: {
-              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
-            },
-          }
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/AllProducts/p/siteID/${site_id}/results,count?config=default&offset=${offset}`
         );
         this.products = data;
         this.isProductLoading = false;
@@ -233,12 +228,7 @@ export const useProductStore = defineStore("products", {
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/AllProducts/p/siteID/${site_id}/e/TypeFilter/p/filter/${filterType}/results,count?config=default&offset=${offset}`,
-          {
-            headers: {
-              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
-            },
-          }
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/AllProducts/p/siteID/${site_id}/e/TypeFilter/p/filter/${filterType}/results,count?config=default&offset=${offset}`
         );
         this.products = data;
         this.isProductLoading = false;
@@ -252,12 +242,7 @@ export const useProductStore = defineStore("products", {
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/results,count?config=default&count=1000`,
-          {
-            headers: {
-              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
-            },
-          }
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/results,count?config=default&count=1000`
         );
         const reworkedCategoryData = reworkCategoryData(data);
         this.productCategories = reworkedCategoryData;
@@ -278,12 +263,7 @@ export const useProductStore = defineStore("products", {
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/p/filter/${category}/results,count?config=default&count=10&offset=${offset}`,
-          {
-            headers: {
-              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
-            },
-          }
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/p/filter/${category}/results,count?config=default&count=10&offset=${offset}`
         );
         this.products = data;
         this.isProductLoading = false;
@@ -305,12 +285,7 @@ export const useProductStore = defineStore("products", {
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/p/filter/${category}/e/TypeFilter/p/filter/${filterType}/results,count?config=default&count=10&offset=${offset}`,
-          {
-            headers: {
-              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
-            },
-          }
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/p/filter/${category}/e/TypeFilter/p/filter/${filterType}/results,count?config=default&count=10&offset=${offset}`
         );
         this.products = data;
         this.isProductLoading = false;
@@ -326,12 +301,7 @@ export const useProductStore = defineStore("products", {
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/results,count?config=default&count=10&offset=${offset}`,
-          {
-            headers: {
-              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
-            },
-          }
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/results,count?config=default&count=10&offset=${offset}`
         );
         this.searchedProducts = data;
         this.isProductLoading = false;
@@ -346,12 +316,7 @@ export const useProductStore = defineStore("products", {
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/TypeFilter/p/filter/{{keyword2}}/results,count?config=default&count=10&offset=${offset}`,
-          {
-            headers: {
-              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
-            },
-          }
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/TypeFilter/p/filter/{{keyword2}}/results,count?config=default&count=10&offset=${offset}`
         );
         this.searchedProducts = data;
         this.isProductLoading = false;
@@ -365,12 +330,7 @@ export const useProductStore = defineStore("products", {
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/results,count?config=default&count=1000`,
-          {
-            headers: {
-              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
-            },
-          }
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/results,count?config=default&count=1000`
         );
         const reworkedCategoryData = reworkCategoryData(data);
         this.searchedProductsCategories = reworkedCategoryData;
@@ -390,12 +350,7 @@ export const useProductStore = defineStore("products", {
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/p/filter/${category}/results,count?config=default&count=10&offset=${offset}`,
-          {
-            headers: {
-              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
-            },
-          }
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/p/filter/${category}/results,count?config=default&count=10&offset=${offset}`
         );
         this.searchedProducts = data;
         this.isProductLoading = false;
@@ -416,12 +371,7 @@ export const useProductStore = defineStore("products", {
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/p/filter/${category}/e/TypeFilter/p/filter/${filterType}/results,count?config=default&count=10&offset=${offset}`,
-          {
-            headers: {
-              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
-            },
-          }
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${keyword}/e/Categories/p/filter/${category}/e/TypeFilter/p/filter/${filterType}/results,count?config=default&count=10&offset=${offset}`
         );
         this.searchedProducts = data;
         this.isProductLoading = false;
@@ -441,12 +391,7 @@ export const useProductStore = defineStore("products", {
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${markNumber}/results,count?config=default&count=10&offset=${offset}`,
-          {
-            headers: {
-              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
-            },
-          }
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Search/p/siteID/${site_id}/p/keyword/${markNumber}/results,count?config=default&count=10&offset=${offset}`
         );
         this.currentProduct = data;
         this.isProductLoading = false;
@@ -465,12 +410,7 @@ export const useProductStore = defineStore("products", {
 
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/GetChildren/p/siteID/${site_id}/p/query/${keyword}/results,count?config=default&count=100`,
-          {
-            headers: {
-              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
-            },
-          }
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/GetChildren/p/siteID/${site_id}/p/query/${keyword}/results,count?config=default&count=100`
         );
         this.childComponents = data;
       } catch (error: any) {
@@ -485,12 +425,7 @@ export const useProductStore = defineStore("products", {
 
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/GetParents/p/siteID/${site_id}/p/query/${keyword}/results,count?config=default&count=100`,
-          {
-            headers: {
-              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
-            },
-          }
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/GetParents/p/siteID/${site_id}/p/query/${keyword}/results,count?config=default&count=100`
         );
         this.parentComponents = data;
       } catch (error: any) {

@@ -88,12 +88,7 @@ export const useFilterStore = defineStore("filter", {
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Hierarchy/p/siteID/${site_id}/p/query/${keyword}/results,count?config=default&offset=${offset}`,
-          {
-            headers: {
-              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
-            },
-          }
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Hierarchy/p/siteID/${site_id}/p/query/${keyword}/results,count?config=default&offset=${offset}`
         );
         this.assetsShown = data;
         this.isHierarchyLoaded = false;
@@ -127,12 +122,7 @@ export const useFilterStore = defineStore("filter", {
       const runtimeConfig = useRuntimeConfig();
       try {
         const data = await $fetch(
-          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Hierarchy/p/siteID/${site_id}/p/query/${keyword}/e/TypeFilter/p/filter/${filter}/results,count?config=default&offset=${offset}`,
-          {
-            headers: {
-              Authorization: `Bearer ${runtimeConfig.public.BEARER_TOKEN}`,
-            },
-          }
+          `https://rest.sparque.ai/1/vanderlande/api/VI-Search-Victoria/e/Hierarchy/p/siteID/${site_id}/p/query/${keyword}/e/TypeFilter/p/filter/${filter}/results,count?config=default&offset=${offset}`
         );
         this.assetsShown = data;
         this.isHierarchyLoaded = false;
